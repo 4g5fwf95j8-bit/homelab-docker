@@ -7,19 +7,22 @@ services:
 ####################
 
   pricebuddy:
-    image: ghcr.io/jez500/pricebuddy:latest
+    image: jez500/pricebuddy:latest
     container_name: pricebuddy
 
     depends_on:
-      pricebuddy-db:
-        condition: service_started
+      pricebuddy_db:
+        condition: service_healthy
+
+    networks:
+      - pricebuddy-net
 
     ports:
       - ${PORT_PRICEBUDDY}:80
 
     environment:
       PUID: ${PUID}
-      GUID: ${PGID
+      PGID: ${PGID}
       TZ: ${TZ}
 
       APP_TIMEZONE: ${TZ}
@@ -27,6 +30,7 @@ services:
       APP_DEBUG: false
 
       DB_HOST: pricebuddy_db                  # Name of the database service
+      DB_PORT: ${PRICEBUDDY_DB_PORT}
       DB_USERNAME: ${PRICEBUDDY_DB_USERNAME}  # Should match the MYSQL_USER in the database service
       DB_PASSWORD: ${PRICEBUDDY_DB_PASSWORD}  # Should match the MYSQL_PASSWORD in the database service
       DB_DATABASE: ${PRICEBUDDY_DB}           # Should match the MYSQL_DATABASE in the database service
@@ -53,7 +57,7 @@ services:
 
     environment:
       PUID: ${PUID}
-      GUID: ${PGID}
+      PGID: ${PGID}
       TZ: ${TZ}
 
       #NOTE changing any of the MYSQL_ variables after the container has set up the initial databases has no effect, use the mysqladmin tool or cli to make changes.
@@ -71,5 +75,19 @@ services:
     volumes:
       - ${DIR_DB}/pricebuddy_mariadb:/config
 
+    healthcheck:
+      test: ["CMD", "healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+    restart: unless-stopped
+
 volumes:
   pricebuddy_storage:
+
+networks:
+  pricebuddy-net:
+    name: pricebuddy-net
+    driver: bridge

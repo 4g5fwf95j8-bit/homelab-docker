@@ -54,25 +54,6 @@ services:
     #      memory: 1024M
     restart: unless-stopped
 
-
-  iSponsorBlockTV:
-    container_name: iSponsorBlockTV
-    image: ghcr.io/dmunozv04/isponsorblocktv:latest
-
-    
-    network_mode: host
-
-    labels:
-      - homepage.group=Back End
-      - homepage.name=iSponsorBlockTV
-      - homepage.description=Silently mutes and skips YouTube ads
-      - dockpeek.tags=host
-    
-    volumes:
-    - ${CONFIGDIR}/isponsorblocktv:/app/data
-
-    restart: unless-stopped
-
 networks:
   caddy-net:
     name: caddy-net

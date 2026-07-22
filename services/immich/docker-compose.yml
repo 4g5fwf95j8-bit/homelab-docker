@@ -143,7 +143,10 @@ services:
       - ${DBDIR}/immich:/var/lib/postgresql/data # TODO this needs migrated to DIR_DB. I have to migrate existing data though
     
     healthcheck:
-      disable: true
+      test: ["CMD-SHELL", "pg_isready -U ${IMMICH_DB_USERNAME} -d ${IMMICH_DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   immich_public-proxy:
@@ -161,7 +164,7 @@ services:
       - ${PORT_IMMICH_PROXY}:3000
     
     environment:
-      IMMICH_URL: http://192.168.1.203:${PORT_IMMICH}
+      IMMICH_URL: http://immich-server:${PORT_IMMICH}
       PUBLIC_BASE_URL: https://${DOMAIN}
       
     labels:
