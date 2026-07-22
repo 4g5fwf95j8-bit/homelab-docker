@@ -68,3 +68,42 @@ docker system prune -f
 - Media: /mnt/seagate_storage/jellyfin/media
 - Immich Library: /mnt/seagate_storage/immich
 - Configs: /opt/jellyfin, /opt/immich
+
+
+# Deploying / Syncing Latest Changes to Server
+Run these commands from the project root (/opt/docker/homelab-docker/) to pull and apply the latest configurations pushed from your local machine:
+```
+Bash
+cd /opt/docker/homelab-docker/
+git fetch origin
+git reset --hard origin/main
+```
+#What Each Command Does:
+```cd /opt/docker/homelab-docker/```
+
+Navigates to the repository root on the server.
+
+```git fetch origin```
+
+Downloads all the latest commits, branches, and tags from the remote GitHub repository (origin) without modifying any of your working files on the server yet.
+
+```git reset --hard origin/main```
+
+Forces the local repository state and all files in the working directory to match origin/main exactly.
+
+⚠️ Note: Any uncommitted edits or modified files made directly on the server will be permanently discarded in favor of what is on GitHub.
+
+# Applying Changes to Docker
+After syncing the code, restart/rebuild your services to apply the updated configurations:
+```
+Bash
+docker compose up -d
+```
+
+# Making Updates to .env File
+- Make them in the VS Code version
+- run this to copy it to the server:
+
+```
+scp -r /Users/georgesofianos/github/homelab-docker/.env gsofianos@192.168.68.130:/opt/docker/homelab-docker/
+```

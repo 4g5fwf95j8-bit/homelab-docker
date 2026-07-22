@@ -42,11 +42,17 @@ services:
     restart: unless-stopped
     volumes:
       - /opt/immich:/usr/src/app/config
+      - /mnt/seagate_storage/immich:/data
       - /mnt/seagate_storage/immich:/usr/src/app/upload
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - IMMICH_MACHINE_LEARNING_URL=http://immich-machine-learning:3003
+      - DB_HOSTNAME=immich_postgres
+      - DB_USERNAME=${IMMICH_DB_USERNAME}
+      - DB_PASSWORD=${IMMICH_DB_PASSWORD}
+      - DB_DATABASE_NAME=${IMMICH_DB_NAME}
+      - REDIS_HOSTNAME=immich_redis
 
   immich-machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION}
@@ -63,7 +69,7 @@ services:
     command: redis-server --save 60 1 --loglevel warning
 
   immich-postgres:
-    image: postgres:16-alpine
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
     container_name: immich-postgres
     restart: unless-stopped
     environment:
