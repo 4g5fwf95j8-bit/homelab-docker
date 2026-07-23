@@ -40,9 +40,10 @@ services:
       - /dev/dri/card0:/dev/dri/card0
 
     volumes:
-      - ${CONFIGDIR}/jellyfin:/config
-      - ${CACHEDIR}/jellyfin:/cache
-      - ${MEDIADIR}:/media:ro #naming, etc all handled by *arr apps
+      - ${MEDIADIR}/media:/media
+      - ${MEDIADIR}/config:/config
+      - ${MEDIADIR}/cache:/cache
+      - /etc/localtime:/etc/localtime:ro
     
     #deploy:
     #  resources:
@@ -50,6 +51,13 @@ services:
     #      cpus: '2'
     #      memory: 1024M
     restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://${SERVER_URL}:${PORT_HTPC_HTTP}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
 networks:
   default:
