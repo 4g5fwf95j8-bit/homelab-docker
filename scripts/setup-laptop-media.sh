@@ -102,7 +102,7 @@ fi
 mkdir -p /mnt/seagate_storage/{jellyfin,immich}
 
 # --- Local (ext4) config folders — real chown works fine here ---
-mkdir -p /srv/{homepage,pricebuddy,caddy} /opt/{jellyfin,immich}
+mkdir -p /srv/{homepage,pricebuddy,caddy} /opt/jellyfin/{config,cache} /opt/immich
 chown -R ${PUID:-1000}:${PGID:-1000} /srv /opt/jellyfin /opt/immich 2>/dev/null || true
 
 echo "Storage setup complete."
