@@ -1,61 +1,27 @@
 name: "jellyfin"
 
 services:
-
-####################
-# Jellyfin
-####################
-
   jellyfin:
     container_name: jellyfin
     image: jellyfin/jellyfin:latest
-      
     user: ${PUID}:${PGID}
+    restart: unless-stopped
 
     networks:
       - default
     
     ports:
-      - ${PORT_HTPC_HTTP}:8096 #HTTP webUI
-      - ${PORT_HTPC_HTTPS}:8920 #HTTPS webUI
+      - ${PORT_HTPC_HTTP}:8096
+      - ${PORT_HTPC_HTTPS}:8920
 
     environment:
       TZ: ${TZ}
       JELLYFIN_PublishedServerUrl: ${SERVER_URL}:${PORT_HTPC_HTTP} #optional. The Server URL to publish in udp Auto Discovery response.
 
-    labels:
-      - homepage.group=Media
-      - homepage.name=Jellyfin
-      - homepage.icon=jellyfin
-      - homepage.href=http://${SERVER_URL}:${PORT_HTPC_HTTP}
-      - homepage.weight=100
-      - homepage.widget.type=jellyfin
-      - homepage.widget.url=http://${SERVER_URL}:${PORT_HTPC_HTTP}
-      #- homepage.widget.key=${HOMEPAGE_JELLYFIN_API}
-
-    devices:
-      - /dev/dri/renderD128:/dev/dri/renderD128 # VAAPI
-      - /dev/dri/card0:/dev/dri/card0
-
     volumes:
-      - ${MEDIADIR}/media:/media
-      - ${MEDIADIR}/config:/config
+      - /opt/jellyfin/config:/config
+      - ${MEDIADIR}/media:/media:/media:ro
       - ${MEDIADIR}/cache:/cache
-      - /etc/localtime:/etc/localtime:ro
-    
-    #deploy:
-    #  resources:
-    #    limits:
-    #      cpus: '2'
-    #      memory: 1024M
-    restart: unless-stopped
-
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://${SERVER_URL}:${PORT_HTPC_HTTP}/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
 
 networks:
   default:
