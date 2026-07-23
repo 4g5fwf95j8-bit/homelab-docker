@@ -149,38 +149,6 @@ services:
       retries: 5
     restart: unless-stopped
 
-  immich_public-proxy:
-    container_name: immich_public-proxy
-    image: ghcr.io/alangrainger/immich-public-proxy:latest
-
-    depends_on:
-      - immich-server
-
-    networks:
-      - default
-
-    ports:
-      - ${PORT_IMMICH_PROXY}:3000
-    
-    environment:
-      IMMICH_URL: http://immich-server:${PORT_IMMICH}
-      PUBLIC_BASE_URL: https://${DOMAIN}
-      
-    labels:
-      - homepage.group=Back End
-      - homepage.name=Immich Public Proxy
-      - homepage.icon=immich-public-proxy
-      - homepage.descriptiopn=Provides secure public access to shared albums
-      - homepage.href=http://${SERVER_URL}:${PORT_IMMICH_PROXY}
-
-    healthcheck:
-      test: curl -s http://localhost:3000/share/healthcheck -o /dev/null || exit 1
-      start_period: 10s
-      timeout: 5s
-
-    restart: unless-stopped
-
-
 
 volumes:
   model-cache:
