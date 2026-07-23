@@ -28,11 +28,8 @@ services:
       - ${DIR_STATIC}/icons:/app/public/icons #Optional. for custom icons
       - ${DIR_STATIC}/wallpaper:/app/public/images #Optional. for custom backgrounds
 
-      - ${SYS_DISK1}:/dev/sda1:ro #harddrive space monitoring
-      - ${SYS_DISK2}:/dev/sdb1:ro #harddrive space monitoring
-      - ${SYS_DISK3}:/dev/sdc1:ro #harddrive space monitoring
-      - ${SYS_DISK4}:/dev/sdd1:ro #harddrive space monitoring
-      - ${SYS_DISK5}:/dev/sde1:ro #harddrive space monitoring
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/seagate_storage:/mnt/seagate_storage:ro
     
     healthcheck:
       test: wget --spider http://${SERVER_URL}:${PORT_SOCKY_PROXY}/version || exit 1
