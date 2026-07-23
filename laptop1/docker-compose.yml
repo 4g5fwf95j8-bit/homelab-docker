@@ -11,7 +11,3 @@ networks:
   default:
     name: homelab-network
     driver: bridge
-
-volumes:
-  jellyfin-config:
-  pricebuddy_db:
