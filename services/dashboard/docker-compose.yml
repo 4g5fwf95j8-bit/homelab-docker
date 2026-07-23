@@ -25,9 +25,6 @@ services:
 
     volumes:
       - ${CONFIGDIR}/homepage:/app/config # Make sure your local config directory exists
-      - ${DIR_STATIC}/icons:/app/public/icons #Optional. for custom icons
-      - ${DIR_STATIC}/wallpaper:/app/public/images #Optional. for custom backgrounds
-
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/seagate_storage:/mnt/seagate_storage:ro
     

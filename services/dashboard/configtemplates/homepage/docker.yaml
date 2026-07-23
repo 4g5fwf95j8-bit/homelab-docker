@@ -1,3 +1,2 @@
 my-docker:
-  host: socky_proxy
-  port: # match this to .env's PORT_SOCKY_PROXY
+  socket: /var/run/docker.sock

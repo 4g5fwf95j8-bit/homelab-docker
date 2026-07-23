@@ -1,0 +1,44 @@
+- Media:
+  - Jellyfin:
+      icon: jellyfin
+      href: https://jellyfin.gsofianos.duckdns.org
+      description: Media Server
+      widget:
+        type: jellyfin
+        url: https://jellyfin.gsofianos.duckdns.org
+        key: c4d5c158132344de8dd3661f93c9a975
+        enableBlocks: true
+        enableNowPlaying: true
+        enableUser: true
+        showEpisodeNumber: true
+        expandOneStreamToTwoRows: false
+  - Immich:
+      icon: immich
+      href: https://immich.gsofianos.duckdns.org
+      description: Photo Library
+      widget:
+        type: immich
+        url: https://immich.gsofianos.duckdns.org
+        key: 0dxTMLWosWGHuB7v47oRCWFbS6THliOeWyLErDM
+        version: 2
+
+- Tools:
+  - Pricebuddy:
+      icon: https://raw.githubusercontent.com/jez500/pricebuddy/main/public/favicon.ico
+      href: https://pricebuddy.gsofianos.duckdns.org
+      description: Price Tracking
+  - Caddy:
+      icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/caddy.png
+      href: http://192.168.68.130/${PORT_CADDY_ADMIN}
+      description: Reverse Proxy
+
+- AITools:
+  - OpenWebUI:
+      icon: mdi-brain
+      href: https://ai.gsofianos.duckdns.org
+      description: AI LLM Interface
+  - ComfyUI:
+      icon: comfyui
+      href: https://comfyui.gsofianos.duckdns.org
+      description: Node-based Stable Diffusion & Z-Image GUI
+      container: comfyui

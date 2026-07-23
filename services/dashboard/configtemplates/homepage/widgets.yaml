@@ -1,30 +1,11 @@
 - resources:
-    label: System
     cpu: true
-    cputemp:  true
-    tempmin: 0
-    tempmax: 90
+    cputemp: true
     uptime: true
-    memory: true
-    disk: /
-    units: metric
     network: true
-
-- resources:
-    label: Storage
-    expanded: true
-    refresh: 6000
-    disk:
-        - /dev/sda1
-    
-- search:
-    provider: duckduckgo
-    target: _blank
-
--  openmeteo:
-    label: # optional
-    latitude:
-    longitude:
-    timezone: # optional
+    memory: true
+    disk: /mnt/seagate_storage
+    tempmin: 0
+    tempmax: 100
     units: metric
-    cache: 30 # Time in minutes to cache API responses, to stay within limits
+    refresh: 3000
