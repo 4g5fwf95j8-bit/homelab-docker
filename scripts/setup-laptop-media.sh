@@ -61,7 +61,7 @@ SEAGATE_DEV=$(lsblk -rbno NAME,FSTYPE,TYPE,SIZE | \
     awk '$2=="exfat" && $3=="part" && $4+0 > 1000000000000 {print "/dev/"$1; exit}')
 
 if [ -z "${SEAGATE_DEV}" ]; then
-    echo "ERROR: No exFAT partition >1TB found. Is the Seagate drive connected?"
+    echo "ERROR: No exFAT partition >1TB found. Is the Seagate drive connected?" >&2
     exit 1
 fi
 
