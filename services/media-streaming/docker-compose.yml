@@ -54,3 +54,10 @@ services:
 networks:
   default:
     name: homelab-network
+
+
+
+    volumes:
+      - /srv/jellyfin:/config
+      - /mnt/seagate_storage/jellyfin:/cache
+      - /mnt/seagate_storage/jellyfin:/media:ro

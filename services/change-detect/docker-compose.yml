@@ -73,14 +73,15 @@ services:
       - dockpeek.tags=db
 
     volumes:
-      - ${DIR_DB}/pricebuddy_mariadb:/config
+      - pricebuddy_db:/var/lib/mysql
+      #- ${DIR_DB}/pricebuddy_mariadb:/config # Removing to see if this is causing the install issue
 
     healthcheck:
       test: ["CMD", "healthcheck"]
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s
+      start_period: 1m
 
     restart: unless-stopped
 
