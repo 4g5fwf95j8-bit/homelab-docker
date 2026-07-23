@@ -12,7 +12,7 @@ services:
 
     depends_on:
       pricebuddy_db:
-        condition: service_healthy
+        condition: service_started
 
     networks:
       - default
@@ -30,7 +30,6 @@ services:
       APP_DEBUG: false
 
       DB_HOST: pricebuddy_db                  # Name of the database service
-      #DB_PORT: ${PRICEBUDDY_DB_PORT}
       DB_USERNAME: ${PRICEBUDDY_DB_USERNAME}  # Should match the MYSQL_USER in the database service
       DB_PASSWORD: ${PRICEBUDDY_DB_PASSWORD}  # Should match the MYSQL_PASSWORD in the database service
       DB_DATABASE: ${PRICEBUDDY_DB}           # Should match the MYSQL_DATABASE in the database service
@@ -74,7 +73,7 @@ services:
 
     volumes:
       - pricebuddy_db:/var/lib/mysql
-      #- ${DIR_DB}/pricebuddy_mariadb:/config # Removing to see if this is causing the install issue
+      - ${DIR_DB}/pricebuddy_mariadb:/config
 
     healthcheck:
       test: ["CMD", "healthcheck"]
