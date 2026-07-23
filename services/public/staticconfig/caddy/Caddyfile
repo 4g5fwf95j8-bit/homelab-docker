@@ -16,10 +16,10 @@ jellyfin.{$DOMAIN} {
 
 # Immich
 immich.{$DOMAIN} {
-    reverse_proxy immich_public-proxy:3000
+    reverse_proxy immich_public-proxy:2283
 }
 
 # PriceBuddy
-pricebuddy.{$DOMAIN} {
-    reverse_proxy localhost:80
-}
+#pricebuddy.{$DOMAIN} {
+#    reverse_proxy localhost:80
+#}
