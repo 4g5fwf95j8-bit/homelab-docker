@@ -18,7 +18,6 @@ services:
     ports:
       - ${PORT_CADDY_HTTP}:80
       - ${PORT_CADDY_HTTPS}:443
-      - ${PORT_CADDY_HTTPS}:443/udpCADDY_ACME_CA
       - ${PORT_CADDY_ADMIN}:2019
 
     environment:
