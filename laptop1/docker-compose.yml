@@ -10,3 +10,4 @@ include:
 networks:
   default:
     name: homelab-network
+    driver: bridge
