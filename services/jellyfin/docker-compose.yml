@@ -1,4 +1,4 @@
-name: "media-streaming"
+name: "jellyfin"
 
 services:
 
@@ -18,8 +18,6 @@ services:
     ports:
       - ${PORT_HTPC_HTTP}:8096 #HTTP webUI
       - ${PORT_HTPC_HTTPS}:8920 #HTTPS webUI
-      - ${PORT_HTPC_LOCAL}:7359/udp #optional. Allows clients to discover Jellyfin on the local network.
-      - ${PORT_HTPC_DLNA}:1900/udp #optional. Service discovery used by DNLA and clients.
 
     environment:
       TZ: ${TZ}
