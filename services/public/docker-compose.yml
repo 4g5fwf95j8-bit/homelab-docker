@@ -18,7 +18,7 @@ services:
     ports:
       - ${PORT_CADDY_HTTP}:80
       - ${PORT_CADDY_HTTPS}:443
-      - ${PORT_CADDY_HTTPS}:443/udp
+      - ${PORT_CADDY_HTTPS}:443/udpCADDY_ACME_CA
       - ${PORT_CADDY_ADMIN}:2019
 
     environment:
@@ -30,11 +30,7 @@ services:
       BOUNCER_CADDY_TOKEN: ${BOUNCER_CADDY_TOKEN}
 
     volumes:
-      - ./staticconfig/caddy/Caddyfile:/etc/caddy/Caddyfile:ro # Required. Needs to be an extension-less file NOT a directory
-      - ${CONFIGDIR}/caddy/data:/data # Optional, house for certs. Caddy adds its own /caddy/ directory
-      - ${CONFIGDIR}/caddy/config:/config # Optional, JSON Config files. Caddy adds its own /caddy/ directory
-      - ${DIR_STATIC}/tandoor_media:/www/tandoor:ro # recipe image files for Tandoor
-      - /opt/docker/oathsworn:/www/oathsworn:ro #oathsworn app
+      - ${CADDY_CONFIG_DIR}/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
 
     healthcheck:
       test: ["CMD", "caddy", "version"]

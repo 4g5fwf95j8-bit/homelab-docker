@@ -2,7 +2,7 @@ name: laptop1-homelab
 
 include:
   - path: ../services/pricebuddy/docker-compose.yml
-  - path: ../services/dashboard/docker-compose.yml
+  - path: ../services/homepage/docker-compose.yml
   - path: ../services/immich/docker-compose.yml
   - path: ../services/jellyfin/docker-compose.yml
   - path: ../services/public/docker-compose.yml

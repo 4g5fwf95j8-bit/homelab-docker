@@ -1,4 +1,4 @@
-name: "dashboard"
+name: "homepage"
 
 services:
 
@@ -24,7 +24,7 @@ services:
       HOMEPAGE_ALLOWED_HOSTS: ${SERVER_URL}:${PORT_DASH_HTTP},${HOST_NAME}.${HOST_DOMAIN}:${PORT_DASH_HTTP},${INTERNAL_HOMEPAGE}.${HOST_DOMAIN}
 
     volumes:
-      - ${CONFIGDIR}/homepage:/app/config # Make sure your local config directory exists
+      - ${HOMEPAGE_CONFIG_DIR}/homepage:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/seagate_storage:/mnt/seagate_storage:ro
     

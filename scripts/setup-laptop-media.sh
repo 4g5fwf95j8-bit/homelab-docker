@@ -107,25 +107,6 @@ chown -R ${PUID:-1000}:${PGID:-1000} /srv /opt/jellyfin /opt/immich 2>/dev/null 
 
 echo "Storage setup complete."
 
-# --- Prepare Caddy Config ---
-CADDY_SRC="${ROOT_DIR}/services/public/staticconfig/caddy/Caddyfile"
-CADDY_DEST="${ROOT_DIR}/laptop1/config/caddy/Caddyfile"
-
-if [ -f "${CADDY_SRC}" ]; then
-    echo "Syncing Caddyfile from static config..."
-    mkdir -p "$(dirname "${CADDY_DEST}")"
-
-    # Remove directory if Docker auto-created one during a failed run
-    if [ -d "${CADDY_DEST}" ]; then
-        rm -rf "${CADDY_DEST}"
-    fi
-
-    # Copy template Caddyfile if not already present at destination
-    if [ ! -f "${CADDY_DEST}" ]; then
-        cp "${CADDY_SRC}" "${CADDY_DEST}"
-    fi
-fi
-
 # Start services
 echo "Starting services..."
 cd "${ROOT_DIR}/laptop1" || exit 1
