@@ -20,8 +20,8 @@ services:
 
     volumes:
       - /opt/jellyfin/config:/config
+      - /opt/jellyfin/cache:/cache
       - ${MEDIADIR}/media:/media:ro
-      - ${MEDIADIR}/cache:/cache
 
 networks:
   default:
