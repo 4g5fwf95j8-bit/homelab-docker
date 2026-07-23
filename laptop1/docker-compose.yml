@@ -1,7 +1,7 @@
 name: laptop1-homelab
 
 include:
-  - path: ../services/change-detect/docker-compose.yml
+  - path: ../services/pricebuddy/docker-compose.yml
   - path: ../services/dashboard/docker-compose.yml
   - path: ../services/immich/docker-compose.yml
   - path: ../services/media-streaming/docker-compose.yml
