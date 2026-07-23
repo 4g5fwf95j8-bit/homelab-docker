@@ -11,8 +11,6 @@ services:
     image: jellyfin/jellyfin:latest
       
     user: ${PUID}:${PGID}
-    group_add:
-      - ${GID_HARDWAREACC} # gid of your `render` group
 
     networks:
       - htpc-net
@@ -36,7 +34,7 @@ services:
       - homepage.weight=100
       - homepage.widget.type=jellyfin
       - homepage.widget.url=http://${SERVER_URL}:${PORT_HTPC_HTTP}
-      - homepage.widget.key=${HOMEPAGE_JELLYFIN_API}
+      #- homepage.widget.key=${HOMEPAGE_JELLYFIN_API}
 
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128 # VAAPI
