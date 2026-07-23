@@ -6,20 +6,20 @@
 
 # Homepage
 homepage.{$DOMAIN} {
-    reverse_proxy localhost:3000
+    reverse_proxy localhost:${PORT_DASH_HTTP}
 }
 
 # Jellyfin
 jellyfin.{$DOMAIN} {
-    reverse_proxy localhost:8096
+    reverse_proxy localhost:${PORT_HTPC_HTTP}
 }
 
 # Immich
 immich.{$DOMAIN} {
-    reverse_proxy immich_public-proxy:2283
+    reverse_proxy localhost:${PORT_IMMICH}
 }
 
 # PriceBuddy
-#pricebuddy.{$DOMAIN} {
-#    reverse_proxy localhost:80
-#}
+pricebuddy.{$DOMAIN} {
+    reverse_proxy localhost:${PORT_PRICEBUDDY}
+}

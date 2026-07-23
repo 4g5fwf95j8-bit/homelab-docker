@@ -29,6 +29,10 @@ sudo ./scripts/setup-laptop-media.sh   # Laptop 1
 sudo ./scripts/setup-laptop-ai.sh      # Laptop 2
 
 # Common Commands
+## Close all containers and remove all artifacts
+cd /opt/docker/homelab-docker/laptop1
+docker compose down --remove-orphans
+
 ## Start / Restart Services
 cd /opt/docker/homelab-docker/laptop1
 docker compose up -d
@@ -39,6 +43,9 @@ docker compose pull && docker compose up -d
 
 # View Logs
 docker compose logs -f
+
+# View Error Logs
+docker compose logs --tail 100
 
 # Check Running Containers
 docker ps
