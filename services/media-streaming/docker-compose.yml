@@ -13,8 +13,7 @@ services:
     user: ${PUID}:${PGID}
 
     networks:
-      - htpc-net
-      - caddy-net # provides access for the reverse proxy
+      - default
     
     ports:
       - ${PORT_HTPC_HTTP}:8096 #HTTP webUI
@@ -53,9 +52,5 @@ services:
     restart: unless-stopped
 
 networks:
-  caddy-net:
-    name: caddy-net
-    external: true
-  htpc-net:
-    name: htpc-net
-    external: true
+  default:
+    name: homelab-network

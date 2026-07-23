@@ -15,7 +15,7 @@ services:
         condition: service_healthy
 
     networks:
-      - pricebuddy-net
+      - default
 
     ports:
       - ${PORT_PRICEBUDDY}:80
@@ -88,6 +88,5 @@ volumes:
   pricebuddy_storage:
 
 networks:
-  pricebuddy-net:
-    name: pricebuddy-net
-    driver: bridge
+  default:
+    name: homelab-network

@@ -13,7 +13,7 @@ services:
       dockerfile: caddy.dockerfile #Custom build which uses duckdns. Control image version in this file
 
     networks:
-      - caddy-net
+      - default
 
     ports:
       - ${PORT_CADDY_HTTP}:80
@@ -59,7 +59,7 @@ services:
     image: ghcr.io/linuxserver/duckdns
 
     networks:
-      - caddy-net
+      - default
 
     environment:
       PUID: ${PUID}
@@ -85,6 +85,5 @@ services:
 
 
 networks:
-  caddy-net:
-    name: caddy-net
-    external: true
+  default:
+    name: homelab-networks

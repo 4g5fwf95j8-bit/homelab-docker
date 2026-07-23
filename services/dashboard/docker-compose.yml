@@ -11,7 +11,7 @@ services:
     container_name: homepage
 
     networks:
-      - socky_proxy-net
+      - default
 
     ports:
       - ${PORT_DASH_HTTP}:3000
@@ -47,7 +47,6 @@ services:
 
 
 networks:
-  socky_proxy-net:
-    name: socky_proxy-net
-    external: true
+  default:
+    name: homelab-network
     
