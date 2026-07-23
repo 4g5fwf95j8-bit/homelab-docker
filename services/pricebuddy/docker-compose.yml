@@ -73,7 +73,7 @@ services:
 
     volumes:
       - pricebuddy_db:/var/lib/mysql
-      - ${DIR_DB}/pricebuddy_mariadb:/config
+      - ${DBDIR}/pricebuddy_mariadb:/config
 
     healthcheck:
       test: ["CMD", "healthcheck"]
