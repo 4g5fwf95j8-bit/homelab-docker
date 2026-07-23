@@ -86,4 +86,4 @@ services:
 
 networks:
   default:
-    name: homelab-networks
+    name: homelab-network
