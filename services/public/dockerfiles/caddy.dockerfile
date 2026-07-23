@@ -1,13 +1,4 @@
-ARG CADDY_VERSION=2.11.2
-
-FROM caddy:${CADDY_VERSION}-builder-alpine AS builder
+FROM caddy:latest
 
 RUN xcaddy build \
-    --with github.com/caddy-dns/duckdns \
-    --with github.com/hslatman/caddy-crowdsec-bouncer/http
-
-FROM caddy:${CADDY_VERSION} AS caddy
-
-WORKDIR /
-
-COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+    --with github.com/caddy-dns/duckdns
