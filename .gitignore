@@ -5,3 +5,5 @@
 *.passwords
 /config
 secrets.yaml
+/backups
+/data
