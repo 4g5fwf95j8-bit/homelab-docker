@@ -76,11 +76,11 @@ services:
       - ${DBDIR}/pricebuddy_mariadb:/config
 
     healthcheck:
-      test: ["CMD", "healthcheck"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 1m
+      start_period: 30s
 
     restart: unless-stopped
 
