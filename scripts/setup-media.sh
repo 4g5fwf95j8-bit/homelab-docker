@@ -46,6 +46,53 @@ else
     echo "Warning: TAILSCALE_AUTHKEY not set"
 fi
 
+# --- Immich Backup Restore Check ---
+IMMICH_DATA_DIR="/opt/immich"
+IMMICH_BACKUP_FILE="${ROOT_DIR}/backups/immich-backup.tar.gz"
+
+# Ensure target directory exists
+mkdir -p "${IMMICH_DATA_DIR}"
+
+# Check if the directory is empty
+if [ -z "$(ls -A ${IMMICH_DATA_DIR})" ]; then
+    if [ -f "${IMMICH_BACKUP_FILE}" ]; then
+        echo "Empty Immich directory detected. Restoring from backup archive..."
+        
+        # Extract the archive
+        tar -xzf "${IMMICH_BACKUP_FILE}" -C "${IMMICH_DATA_DIR}"
+        
+        # Ensure correct permissions for the Docker containers
+        chown -R ${PUID:-1000}:${PGID:-1000} "${IMMICH_DATA_DIR}"
+        
+        echo "Immich data successfully restored!"
+    else
+        echo "No backup archive found at ${IMMICH_BACKUP_FILE}. Skipping restore (fresh start)."
+    fi
+else
+    echo "Immich data already exists at ${IMMICH_DATA_DIR}. Skipping restore to protect live data."
+fi
+
+# --- Jellyfin Config Restore Check ---
+JELLYFIN_CONFIG_DIR="/opt/jellyfin/config"
+JELLYFIN_BACKUP_FILE="${ROOT_DIR}/backups/jellyfin-config-backup.tar.gz"
+
+# Ensure target directory exists
+mkdir -p "${JELLYFIN_CONFIG_DIR}"
+
+# Check if the directory is empty
+if [ -z "$(ls -A ${JELLYFIN_CONFIG_DIR})" ]; then
+    if [ -f "${JELLYFIN_BACKUP_FILE}" ]; then
+        echo "Empty Jellyfin directory detected. Restoring from backup archive..."
+        tar -xzf "${JELLYFIN_BACKUP_FILE}" -C "${JELLYFIN_CONFIG_DIR}"
+        chown -R ${PUID:-1000}:${PGID:-1000} "${JELLYFIN_CONFIG_DIR}"
+        echo "Jellyfin config successfully restored!"
+    else
+        echo "No backup archive found at ${JELLYFIN_BACKUP_FILE}. Skipping restore (fresh start)."
+    fi
+else
+    echo "Jellyfin config already exists at ${JELLYFIN_CONFIG_DIR}. Skipping restore to protect live data."
+fi
+
 # =============================================
 # Storage
 # =============================================
