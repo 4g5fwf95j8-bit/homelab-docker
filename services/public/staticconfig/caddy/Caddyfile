@@ -1,25 +1,24 @@
 # Global options
 {
     email {$EMAIL}
-    # DuckDNS module is built-in via caddy-dns/duckdns if needed, but basic works
 }
 
 # Homepage
-homepage.{$DOMAIN} {
-    reverse_proxy localhost:${PORT_DASH_HTTP}
+homepage.gsofianos.duckdns.org {
+    reverse_proxy localhost:3000
 }
 
 # Jellyfin
-jellyfin.{$DOMAIN} {
-    reverse_proxy localhost:${PORT_HTPC_HTTP}
+jellyfin.gsofianos.duckdns.org {
+    reverse_proxy localhost:8096
 }
 
 # Immich
-immich.{$DOMAIN} {
-    reverse_proxy localhost:${PORT_IMMICH}
+immich.gsofianos.duckdns.org {
+    reverse_proxy localhost:2283
 }
 
 # PriceBuddy
-pricebuddy.{$DOMAIN} {
-    reverse_proxy localhost:${PORT_PRICEBUDDY}
+pricebuddy.gsofianos.duckdns.org {
+    reverse_proxy localhost:8080
 }
