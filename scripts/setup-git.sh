@@ -23,4 +23,7 @@ else
     git clean -fd
 fi
 
+# Reapply permissions to run scripts
+sudo chmod +x /opt/docker/homelab-docker/scripts/*
+
 echo "Git sync complete."
