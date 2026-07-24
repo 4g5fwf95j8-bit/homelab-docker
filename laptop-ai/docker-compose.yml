@@ -1,4 +1,4 @@
-name: laptop2-ai
+name: homelab-ai
 
 services:
   ollama:

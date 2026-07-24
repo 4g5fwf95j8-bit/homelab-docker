@@ -20,5 +20,5 @@ immich.gsofianos.duckdns.org {
 
 # PriceBuddy
 pricebuddy.gsofianos.duckdns.org {
-    reverse_proxy pricebuddy:8080
+    reverse_proxy pricebuddy:80
 }

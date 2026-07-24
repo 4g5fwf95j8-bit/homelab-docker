@@ -1,4 +1,4 @@
-name: laptop1-homelab
+name: homelab-media
 
 include:
   - path: ../services/pricebuddy/docker-compose.yml

@@ -42,7 +42,7 @@ curl -fsSL https://tailscale.com/install.sh | sh
 
 if [ -n "${TAILSCALE_AUTHKEY}" ]; then
     tailscale up --auth-key="${TAILSCALE_AUTHKEY}" \
-        --hostname="laptop1-homelab" \
+        --hostname="homelab-media" \
         --ssh --accept-routes || true
 else
     echo "Warning: TAILSCALE_AUTHKEY not set"
@@ -158,7 +158,7 @@ echo "Storage setup complete."
 
 # Start services
 echo "Starting services..."
-cd "${ROOT_DIR}/laptop1" || exit 1
+cd "${ROOT_DIR}/homelab-media" || exit 1
 docker compose pull
 docker compose up -d
 

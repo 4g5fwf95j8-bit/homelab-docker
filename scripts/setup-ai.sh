@@ -20,11 +20,11 @@ chown -R ${PUID:-1000}:${PGID:-1000} /mnt/storage
 # Tailscale
 curl -fsSL https://tailscale.com/install.sh | sh
 if [ -n "${TAILSCALE_AUTHKEY}" ]; then
-    tailscale up --auth-key="${TAILSCALE_AUTHKEY}" --hostname="laptop2-ai" --ssh --accept-routes || true
+    tailscale up --auth-key="${TAILSCALE_AUTHKEY}" --hostname="homelab-ai" --ssh --accept-routes || true
 fi
 
 # Start services
-cd "$(dirname "$0")/../laptop2" || exit 1
+cd "$(dirname "$0")/../homelab-ai" || exit 1
 docker compose pull
 docker compose up -d
 
