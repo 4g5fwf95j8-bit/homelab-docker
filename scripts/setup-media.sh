@@ -23,7 +23,7 @@ fi
 
 # Sync .env symlinks
 echo "Syncing .env symlinks..."
-bash "${SCRIPT_DIR}/run-each-update.sh"
+bash "${SCRIPT_DIR}/auth.sh"
 
 # System & Docker
 echo "Updating system..."

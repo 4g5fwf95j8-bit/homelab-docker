@@ -114,3 +114,7 @@ docker compose up -d
 ```
 scp -r /Users/georgesofianos/github/homelab-docker/.env gsofianos@192.168.68.130:/opt/docker/homelab-docker/
 ```
+# Authorize the scripts to be run
+```
+sudo chmod +x /opt/docker/homelab-docker/scripts/*
+```
