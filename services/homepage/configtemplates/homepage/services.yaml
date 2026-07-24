@@ -6,7 +6,7 @@
       widget:
         type: jellyfin
         url: https://jellyfin.gsofianos.duckdns.org
-        key: c4d5c158132344de8dd3661f93c9a975
+        key: 28e35cc8dad846d584ef8b6292f55d6b
         enableBlocks: true
         enableNowPlaying: true
         enableUser: true
