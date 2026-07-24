@@ -1,33 +1,33 @@
 #!/bin/bash
-# =============================================
-# Laptop 2 Setup Script (AI / Ollama Server)
-# Run with: sudo ./scripts/setup-laptop2.sh
-# =============================================
+echo "Syncing repo from GitHub..."
+./scripts/setup-git.sh
 
 set -e
 
-echo "=== Starting Laptop 2 Setup ==="
+echo "=== Starting Laptop 2 (AI) Setup ==="
 
-# --- 1. Docker ---
+# Docker
 apt update && apt upgrade -y
 if ! command -v docker &> /dev/null; then
     curl -fsSL https://get.docker.com | sh
-    usermod -aG docker $SUDO_USER
+    usermod -aG docker ${SUDO_USER:-$USER}
 fi
 
-# --- 2. Storage for Ollama ---
-echo "Setting up Ollama storage..."
+# Storage
 mkdir -p /mnt/storage/ollama/models
 chown -R ${PUID:-1000}:${PGID:-1000} /mnt/storage
-chmod -R 755 /mnt/storage
 
-# --- 3. Start Services ---
-echo "Starting AI services..."
+# Tailscale
+curl -fsSL https://tailscale.com/install.sh | sh
+if [ -n "${TAILSCALE_AUTHKEY}" ]; then
+    tailscale up --auth-key="${TAILSCALE_AUTHKEY}" --hostname="laptop2-ai" --ssh --accept-routes || true
+fi
+
+# Start services
 cd "$(dirname "$0")/../laptop2" || exit 1
-
 docker compose pull
 docker compose up -d
 
-echo "=== Laptop 2 Setup Complete! ==="
-echo "Check Ollama: docker ps | grep ollama"
-echo "Pull a model: docker exec -it ollama ollama pull qwen2.5-coder"
+echo "=== Laptop 2 AI Setup Complete! ==="
+echo "Open WebUI: http://localhost:8080"
+echo "Pull models: docker exec -it ollama ollama pull qwen2.5-coder:7b"

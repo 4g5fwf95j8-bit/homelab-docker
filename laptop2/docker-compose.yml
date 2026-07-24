@@ -8,12 +8,11 @@ services:
     ports:
       - "11434:11434"
     volumes:
-      - ${OLLAMA_MODELS}:/root/.ollama
+      - ollama-models:/root/.ollama
     environment:
-      - OLLAMA_HOST=${OLLAMA_HOST}
-      - OLLAMA_KEEP_ALIVE=${OLLAMA_KEEP_ALIVE}
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_KEEP_ALIVE=24h
 
-  # Optional: Open WebUI for nice ChatGPT-like interface
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
     container_name: open-webui
@@ -24,8 +23,10 @@ services:
       - open-webui-data:/app/backend/data
     environment:
       - OLLAMA_API_BASE_URL=http://ollama:11434
+      - ENABLE_SIGNUP=false   # Set true if you want multiple users
     depends_on:
       - ollama
 
 volumes:
+  ollama-models:
   open-webui-data:

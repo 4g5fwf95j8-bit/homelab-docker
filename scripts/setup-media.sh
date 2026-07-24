@@ -2,6 +2,8 @@
 # =============================================
 # Laptop 1 Setup Script (Media + Proxy Server)
 # =============================================
+echo "Syncing repo from GitHub..."
+./scripts/setup-git.sh
 
 set -e
 
