@@ -1,2 +1,6 @@
 my-docker:
   socket: /var/run/docker.sock
+
+laptop2:
+  host: 100.71.98.85
+  port: 2375

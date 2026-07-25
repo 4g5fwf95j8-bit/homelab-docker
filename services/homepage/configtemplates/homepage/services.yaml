@@ -33,12 +33,25 @@
       description: Reverse Proxy
 
 - AITools:
-  - OpenWebUI:
-      icon: mdi-brain
-      href: https://ai.gsofianos.duckdns.org
-      description: AI LLM Interface
-  - ComfyUI:
-      icon: comfyui
-      href: https://comfyui.gsofianos.duckdns.org
-      description: Node-based Stable Diffusion & Z-Image GUI
-      container: comfyui
+    - Open WebUI:
+        icon: open-webui
+        href: https://ai.gsofianos.duckdns.org
+        description: Local LLM Interface
+        server: laptop2
+        container: open-webui
+        siteMonitor: http://100.71.98.85:8080
+        
+    - Ollama:
+        icon: ollama
+        href: http://100.71.98.85:11434
+        description: Local LLM Engine
+        server: laptop2
+        container: ollama
+        siteMonitor: http://100.71.98.85:11434
+        widget:
+          type: customapi
+          url: http://100.71.98.85:11434/api/tags
+          mappings:
+            - field: models
+              label: Installed Models
+              format: size
