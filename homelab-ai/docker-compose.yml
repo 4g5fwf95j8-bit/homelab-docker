@@ -6,12 +6,14 @@ services:
     container_name: ollama
     restart: unless-stopped
     ports:
-      - "11434:11434"
+      - "11434:11434"                # publishes on 0.0.0.0:11434
     volumes:
       - ollama-models:/root/.ollama
     environment:
-      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_HOST=0.0.0.0:11434    # more explicit (recommended)
       - OLLAMA_KEEP_ALIVE=24h
+      # Optional but useful:
+      # - OLLAMA_ORIGINS=*
 
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
@@ -23,16 +25,16 @@ services:
       - open-webui-data:/app/backend/data
     environment:
       - OLLAMA_API_BASE_URL=http://ollama:11434
-      - ENABLE_SIGNUP=false   # Set true if you want multiple users
+      - ENABLE_SIGNUP=false
     depends_on:
       - ollama
 
-dockerproxy:
+  dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy
     environment:
-      - CONTAINERS=1 # Allow viewing containers
-      - POST=0       # Block any commands that try to change things
+      - CONTAINERS=1
+      - POST=0
     ports:
       - "100.71.98.85:2375:2375"
     volumes:
