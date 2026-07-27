@@ -117,7 +117,7 @@
     - Docker Proxy (Media):
         icon: docker
         description: Local Docker Socket Proxy
-        server: homelab-media
+        server: homelab_media
         container: dockerproxy
         showStats: true
 

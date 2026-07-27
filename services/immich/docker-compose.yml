@@ -10,7 +10,7 @@
 name: immich
 
 services:
-  immich-server:
+  immich_server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
 
@@ -31,7 +31,7 @@ services:
     environment:
       TZ: ${TZ}
 
-      DB_HOSTNAME: immich-postgres
+      DB_HOSTNAME: immich_postgres
       DB_PASSWORD: ${IMMICH_DB_PASSWORD}
       DB_USERNAME: ${IMMICH_DB_USERNAME}
       DB_DATABASE_NAME: ${IMMICH_DB_NAME}
@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
 
 
-  immich-machine-learning:
+  immich_machine_learning:
     container_name: immich_machine_learning
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
 
