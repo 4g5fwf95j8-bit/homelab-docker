@@ -1,4 +1,41 @@
-- Media:
+- Host Nodes:
+    - Media Server:
+        icon: cinema.svg
+        description: Primary Storage & Media Host
+        server: homelab-media
+        ping: 192.168.68.130         # Live heartbeat ping check
+        container: homepage
+        widget:
+        type: resources
+        cpu: true
+        cputemp: true             # CPU temperature gauge
+        memory: true
+        network: true             # Live network RX/TX
+        uptime: true              # System uptime
+        disk:
+            - /host
+            - /mnt/seagate_storage
+
+    - AI Server:
+        icon: sparkles.svg
+        description: Ollama & AI Inference Host
+        server: homelab-ai
+        ping: 100.71.98.85          # Tailscale ping check
+        container: dockerproxy
+        widget:
+        type: glances
+        url: http://100.71.98.85:61208
+        version: 4
+        cpu: true
+        cputemp: true             # Passes host CPU temps via Glances
+        mem: true
+        network: true             # Live network RX/TX
+        uptime: true              # System uptime
+        gpu: true                 # GPU utilization & VRAM (if applicable)
+        disk:
+            - /hostfs
+
+- Media & Apps:
   - Jellyfin:
       icon: jellyfin
       href: https://jellyfin.gsofianos.duckdns.org
@@ -16,6 +53,7 @@
         enableUser: true
         showEpisodeNumber: true
         expandOneStreamToTwoRows: false
+
   - Immich:
       icon: immich
       href: https://immich.gsofianos.duckdns.org
@@ -30,7 +68,6 @@
         key: 0dxTMLWosWGHuB7v47oRCWFbS6THliOeWyLErDM
         version: 2
 
-- Tools:
   - Pricebuddy:
       icon: https://raw.githubusercontent.com/jez500/pricebuddy/main/public/favicon.ico
       href: https://pricebuddy.gsofianos.duckdns.org
@@ -39,14 +76,6 @@
       container: pricebuddy
       showStats: true
       siteMonitor: https://pricebuddy.gsofianos.duckdns.org
-  - Caddy:
-      icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/caddy.png
-      href: http://192.168.68.130/${PORT_CADDY_ADMIN}
-      description: Reverse Proxy
-      server: homelab-media
-      container: caddy
-      showStats: true
-      siteMonitor: http://192.168.68.130
 
 - AITools:
     - Open WebUI:
@@ -57,7 +86,7 @@
         container: open-webui
         showStats: true
         siteMonitor: http://100.71.98.85:8080
-        
+
     - Ollama:
         icon: ollama
         href: http://100.71.98.85:11434
@@ -72,9 +101,23 @@
           mappings:
             - field: models
               label: Installed Models
-              format: count
-  
-- Infrastructure:
+              format: size
+
+- Networking & Utilities:
+    - Caddy:
+        icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/caddy.png
+        href: http://192.168.68.130/${PORT_CADDY_ADMIN}
+        description: Reverse Proxy
+        server: homelab-media
+        container: caddy
+        showStats: true
+        siteMonitor: http://192.168.68.130
+    - DuckDNS:
+        icon: duckdns.svg
+        description: Dynamic DNS
+        container: duckdns
+
+- System & Backend Services:
     - Homepage:
         icon: homepage
         href: http://192.168.68.130:${PORT_DASH_HTTP}
@@ -96,3 +139,19 @@
         server: homelab-ai
         container: dockerproxy
         showStats: true
+
+    - Immich Postgres:
+        icon: postgresql.svg
+        container: immich_postgres
+    
+    - Immich Redis:
+        icon: redis.svg
+        container: immich_redis
+    
+    - Immich ML:
+        icon: immich.svg
+        container: immich_machine_learning
+    
+    - Pricebuddy DB:
+        icon: mariadb.svg
+        container: pricebuddy_db

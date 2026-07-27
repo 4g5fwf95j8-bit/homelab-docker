@@ -1,29 +1,3 @@
 - greeting:
     text_size: xl
     text: "Homelab Overview"
-
-- resources:
-    label: "Media Server"
-    cpu: true
-    cputemp: true
-    uptime: true
-    network: true
-    memory: true
-    disk: 
-        - /host
-        - /mnt/seagate_storage
-    tempmin: 0
-    tempmax: 100
-    units: metric
-    refresh: 3000
-
-- glances:
-    label: "AI Server"
-    url: http://100.71.98.85:61208
-    version: 4
-    cpu: true
-    mem: true
-    uptime: true
-    expanded: true
-    disk:
-      - /hostfs

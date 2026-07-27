@@ -12,13 +12,18 @@ footer: false
 cardBlur: xs
 
 layout:
-  Media:
+  Host Nodes:
     style: row
     columns: 2
-    header: true
-  Tools:
+  Media & Apps:
     style: row
-    columns: 1
-  AITools:
+    columns: 3
+  AI Tools:
     style: row
     columns: 2
+  Networking & Utilities:
+    style: row
+    columns: 2
+  System & Backend Services:
+    style: row
+    columns: 4

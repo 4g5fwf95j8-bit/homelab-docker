@@ -165,3 +165,13 @@ docker compose up -d
 echo "=== Laptop 1 Setup Complete! ==="
 echo "Tailscale IP: $(tailscale ip -4 2>/dev/null || echo 'Not connected')"
 docker ps
+
+# Start services
+echo "Starting services..."
+cd "${ROOT_DIR}/homelab-media" || exit 1
+docker compose pull
+docker compose up -d
+
+# Clean up dangling images left behind by updates
+echo "Cleaning up old Docker images..."
+docker image prune -f

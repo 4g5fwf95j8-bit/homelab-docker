@@ -31,3 +31,12 @@ docker compose up -d
 echo "=== Laptop 2 AI Setup Complete! ==="
 echo "Open WebUI: http://localhost:8080"
 echo "Pull models: docker exec -it ollama ollama pull qwen2.5-coder:7b"
+
+# Start services
+cd "$(dirname "$0")/../homelab-ai" || exit 1
+docker compose pull
+docker compose up -d
+
+# Clean up dangling images left behind by updates
+echo "Cleaning up old Docker images..."
+docker image prune -f
