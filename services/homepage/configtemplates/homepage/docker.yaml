@@ -3,5 +3,5 @@ homelab-ai:
   port: 2375
 
 homelab-media:
-  host: dockerproxy
+  host: 192.168.68.130
   port: 2375

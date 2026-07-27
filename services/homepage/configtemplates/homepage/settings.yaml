@@ -21,9 +21,3 @@ layout:
   AI Tools:
     style: row
     columns: 2
-  Networking & Utilities:
-    style: row
-    columns: 2
-  System & Backend Services:
-    style: row
-    columns: 4
