@@ -1,11 +1,6 @@
 name: "pricebuddy"
 
 services:
-
-####################
-# PriceBuddy
-####################
-
   pricebuddy:
     image: jez500/pricebuddy:latest
     container_name: pricebuddy
@@ -13,9 +8,6 @@ services:
     depends_on:
       pricebuddy_db:
         condition: service_started
-
-    networks:
-      - default
 
     ports:
       - ${PORT_PRICEBUDDY}:80
@@ -86,7 +78,3 @@ services:
 
 volumes:
   pricebuddy_storage:
-
-networks:
-  default:
-    name: homelab-network

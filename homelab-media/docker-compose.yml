@@ -10,7 +10,7 @@ include:
 
 networks:
   default:
-    name: homelab-network
+    name: homelab-media-network
     driver: bridge
 
 volumes:

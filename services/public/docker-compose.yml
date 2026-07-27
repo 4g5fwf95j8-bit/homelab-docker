@@ -1,19 +1,11 @@
 name: "public"
 
 services:
-
-####################
-# Reverse Proxy
-####################
-
   caddy:
     container_name: caddy
     build:
       context: ./dockerfiles
       dockerfile: caddy.dockerfile #Custom build which uses duckdns. Control image version in this file
-
-    networks:
-      - default
 
     ports:
       - ${PORT_CADDY_HTTP}:80
@@ -34,18 +26,10 @@ services:
     healthcheck:
       test: ["CMD", "caddy", "version"]
     restart: unless-stopped
-
-
-####################
-# Dynamic DNS
-####################  
   
   duckdns:
     container_name: duckdns
     image: ghcr.io/linuxserver/duckdns
-
-    networks:
-      - default
 
     environment:
       PUID: ${PUID}
@@ -68,8 +52,3 @@ services:
           cpus: '1'
           memory: 32M
     restart: unless-stopped
-
-
-networks:
-  default:
-    name: homelab-network

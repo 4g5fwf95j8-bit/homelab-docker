@@ -8,5 +8,5 @@ include:
 
 networks:
   default:
-    name: homelab-network
+    name: homelab-ai-network
     driver: bridge

@@ -6,9 +6,6 @@ services:
     image: jellyfin/jellyfin:latest
     user: ${PUID}:${PGID}
     restart: unless-stopped
-
-    networks:
-      - default
     
     ports:
       - ${PORT_HTPC_HTTP}:8096
@@ -22,7 +19,3 @@ services:
       - /opt/jellyfin/config:/config
       - /opt/jellyfin/cache:/cache
       - ${MEDIADIR}/media:/media:ro
-
-networks:
-  default:
-    name: homelab-network
