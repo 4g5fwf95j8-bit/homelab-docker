@@ -38,11 +38,6 @@ services:
       SUBDOMAINS: ${DUCKDNS_SUBDOMAINLIST}
       TOKEN: ${DUCKDNS_TOKEN}
 
-    labels:
-      - homepage.group=Wild West
-      - homepage.name=DuckDNS
-      - homepage.icon=duckdns
-      - homepage.description=Dynamic DNS for external access
     volumes:
       - ${CONFIGDIR}/duckdns:/config #optional
 

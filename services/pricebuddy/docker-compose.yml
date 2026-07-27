@@ -32,13 +32,6 @@ services:
       #SCRAPER_BASE_URL:    # Url to Name of the scrapper service
       AFFILIATE_ENABLED: 'true'               # See https://pricebuddy.jez.me/support-project.html
 
-    labels:
-      - homepage.group=Lifestyle
-      - homepage.name=Pricebuddy
-      - homepage.icon=price-buddy
-      - homepage.href=http://${SERVER_URL}:${PORT_PRICEBUDDY}
-
-
     volumes:
       - pricebuddy_storage:/app/storage
 
@@ -56,12 +49,6 @@ services:
       MYSQL_USER: ${PRICEBUDDY_DB_USERNAME}
       MYSQL_PASSWORD: ${PRICEBUDDY_DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${PRICEBUDDY_DB_ROOT_PASSWORD}
-
-    labels:
-      - homepage.group=Databases
-      - homepage.name=Pricebuddy | MariaDB
-      - homepage.icon=mariadb
-      - dockpeek.tags=db
 
     volumes:
       - pricebuddy_db:/var/lib/mysql

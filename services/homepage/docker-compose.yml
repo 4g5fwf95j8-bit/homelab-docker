@@ -20,6 +20,7 @@ services:
       - /mnt/seagate_storage:/mnt/seagate_storage:ro
       - /:/host:ro
       - /sys:/sys:ro
+      - ./icons:/app/public/icons
     
     healthcheck:
       test: wget --spider http://${SERVER_URL}:${PORT_SOCKY_PROXY}/version || exit 1
