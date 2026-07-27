@@ -7,14 +7,9 @@
         container: homepage
         widget:
             type: glances
-            cpu: true
-            cputemp: true             # CPU temperature gauge
-            memory: true
-            network: true             # Live network RX/TX
-            uptime: true              # System uptime
-            disk:
-                - /host
-                - /mnt/seagate_storage
+            url: http://192.168.68.130:61208  # Glances URL required
+            version: 4
+            metric: info
 
     - AI Server:
         icon: /icons/icon_server-ai.png
@@ -26,57 +21,51 @@
             type: glances
             url: http://100.71.98.85:61208
             version: 4
-            cpu: true
-            cputemp: true             # Passes host CPU temps via Glances
-            memory: true
-            network: true             # Live network RX/TX
-            uptime: true              # System uptime
-            disk:
-                - /hostfs
+            metric: info
 
 - Media & Apps:
   - Jellyfin:
-      icon: jellyfin
-      href: https://jellyfin.gsofianos.duckdns.org
-      description: Media Server
-      server: homelab-media
-      container: jellyfin
-      showStats: true
-      siteMonitor: https://jellyfin.gsofianos.duckdns.org
-      widget:
-        type: jellyfin
-        url: https://jellyfin.gsofianos.duckdns.org
-        key: 28e35cc8dad846d584ef8b6292f55d6b
-        enableBlocks: true
-        enableNowPlaying: true
-        enableUser: true
-        showEpisodeNumber: true
-        expandOneStreamToTwoRows: false
+        icon: jellyfin
+        href: https://jellyfin.gsofianos.duckdns.org
+        description: Media Server
+        server: homelab-media
+        container: jellyfin
+        showStats: true
+        siteMonitor: https://jellyfin.gsofianos.duckdns.org
+        widget:
+            type: jellyfin
+            url: https://jellyfin.gsofianos.duckdns.org
+            key: 28e35cc8dad846d584ef8b6292f55d6b
+            enableBlocks: true
+            enableNowPlaying: true
+            enableUser: true
+            showEpisodeNumber: true
+            expandOneStreamToTwoRows: false
 
   - Immich:
-      icon: immich
-      href: https://immich.gsofianos.duckdns.org
-      description: Photo Library
-      server: homelab-media
-      container: immich_server
-      showStats: true
-      siteMonitor: https://immich.gsofianos.duckdns.org
-      widget:
-        type: immich
-        url: https://immich.gsofianos.duckdns.org
-        key: 0dxTMLWosWGHuB7v47oRCWFbS6THliOeWyLErDM
-        version: 2
+        icon: immich
+        href: https://immich.gsofianos.duckdns.org
+        description: Photo Library
+        server: homelab-media
+        container: immich_server
+        showStats: true
+        siteMonitor: https://immich.gsofianos.duckdns.org
+        widget:
+            type: immich
+            url: https://immich.gsofianos.duckdns.org
+            key: 0dxTMLWosWGHuB7v47oRCWFbS6THliOeWyLErDM
+            version: 2
 
   - Pricebuddy:
-      icon: https://raw.githubusercontent.com/jez500/pricebuddy/main/public/favicon.ico
-      href: https://pricebuddy.gsofianos.duckdns.org
-      description: Price Tracking
-      server: homelab-media
-      container: pricebuddy
-      showStats: true
-      siteMonitor: https://pricebuddy.gsofianos.duckdns.org
+        icon: https://raw.githubusercontent.com/jez500/pricebuddy/main/public/favicon.ico
+        href: https://pricebuddy.gsofianos.duckdns.org
+        description: Price Tracking
+        server: homelab-media
+        container: pricebuddy
+        showStats: true
+        siteMonitor: https://pricebuddy.gsofianos.duckdns.org
 
-- AITools:
+- AI Tools:
     - Open WebUI:
         icon: open-webui
         href: https://ai.gsofianos.duckdns.org
@@ -95,12 +84,12 @@
         showStats: true
         siteMonitor: http://100.71.98.85:11434
         widget:
-          type: customapi
-          url: http://100.71.98.85:11434/api/tags
-          mappings:
-            - field: models
-              label: Installed Models
-              format: size
+            type: customapi
+            url: http://100.71.98.85:11434/api/tags
+            mappings:
+                - field: models
+                    label: Installed Models
+                    format: size
 
 - Networking & Utilities:
     - Caddy:

@@ -1,3 +1,28 @@
 - greeting:
     text_size: xl
     text: "Homelab Overview"
+
+- glances:
+    label: "Media Server"
+    url: http://192.168.68.130:61208
+    version: 4
+    cpu: true
+    cputemp: true
+    mem: true
+    network: true
+    uptime: true
+    disk:
+      - /host
+      - /mnt/seagate_storage
+
+- glances:
+    label: "AI Server"
+    url: http://100.71.98.85:61208
+    version: 4
+    cpu: true
+    cputemp: true
+    mem: true
+    network: true
+    uptime: true
+    disk:
+      - /hostfs
