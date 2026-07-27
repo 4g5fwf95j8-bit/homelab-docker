@@ -9,7 +9,7 @@ include:
   - path: ../services/dockerproxy/docker-compose.yml
 
 networks:
-  default:
+  homelab-media-network:
     name: homelab-media-network
     driver: bridge
 
