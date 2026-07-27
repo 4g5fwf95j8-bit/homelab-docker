@@ -1,0 +1,32 @@
+/* ============================================================
+   Stack the top Glances info widgets into two full-width rows
+   ============================================================ */
+
+/* Make the information-widgets container a vertical flex column */
+#information-widgets,
+.information-widgets {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0.4rem !important;          /* small gap between the two rows */
+}
+
+/* Force every direct child (greeting + each Glances block) to take full width */
+#information-widgets > *,
+.information-widgets > * {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex-basis: 100% !important;
+}
+
+/* Optional: give the Glances rows a subtle visual separation */
+.information-widget-glances {
+  padding: 0.15rem 0 !important;
+}
+
+/* Optional: make the server labels a bit more prominent */
+.information-widget-glances .text-sm,
+.information-widget-glances .opacity-50 {
+  font-weight: 500 !important;
+  opacity: 0.85 !important;
+}

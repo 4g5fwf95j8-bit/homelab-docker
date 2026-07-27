@@ -10,6 +10,9 @@ services:
       - GLANCES_OPT=-w # Starts Glances in Web REST API mode on port 61208
     volumes:
       - /:/hostfs:ro   # Mounts host drive for accurate disk space reporting
+      - /mnt/seagate_storage:/mnt/seagate_storage:ro
+      - /:/host:ro
+      - /sys:/sys:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - "61208:61208"
