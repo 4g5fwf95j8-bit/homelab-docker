@@ -9,10 +9,9 @@ include:
   - path: ../services/dockerproxy/docker-compose.yml
 
 networks:
-  homelab-media-network:
+  default:
     name: homelab-media-network
     driver: bridge
-
 volumes:
   jellyfin-config:
   pricebuddy_db:
