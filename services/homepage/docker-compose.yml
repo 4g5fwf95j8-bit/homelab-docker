@@ -35,3 +35,11 @@ services:
           cpus: '1'
           memory: 256M
     restart: unless-stopped
+    
+    networks:
+      - homelab-media-network
+
+networks:
+  homelab-media-network:
+    external: true
+    name: homelab-media-network
