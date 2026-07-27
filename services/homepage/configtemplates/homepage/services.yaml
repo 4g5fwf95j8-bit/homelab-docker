@@ -3,6 +3,10 @@
       icon: jellyfin
       href: https://jellyfin.gsofianos.duckdns.org
       description: Media Server
+      server: homelab-media
+      container: jellyfin
+      showStats: true
+      siteMonitor: https://jellyfin.gsofianos.duckdns.org
       widget:
         type: jellyfin
         url: https://jellyfin.gsofianos.duckdns.org
@@ -16,6 +20,10 @@
       icon: immich
       href: https://immich.gsofianos.duckdns.org
       description: Photo Library
+      server: homelab-media
+      container: immich_server
+      showStats: true
+      siteMonitor: https://immich.gsofianos.duckdns.org
       widget:
         type: immich
         url: https://immich.gsofianos.duckdns.org
@@ -27,26 +35,36 @@
       icon: https://raw.githubusercontent.com/jez500/pricebuddy/main/public/favicon.ico
       href: https://pricebuddy.gsofianos.duckdns.org
       description: Price Tracking
+      server: homelab-media
+      container: pricebuddy
+      showStats: true
+      siteMonitor: https://pricebuddy.gsofianos.duckdns.org
   - Caddy:
       icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/caddy.png
       href: http://192.168.68.130/${PORT_CADDY_ADMIN}
       description: Reverse Proxy
+      server: homelab-media
+      container: caddy
+      showStats: true
+      siteMonitor: http://192.168.68.130
 
 - AITools:
     - Open WebUI:
         icon: open-webui
         href: https://ai.gsofianos.duckdns.org
         description: Local LLM Interface
-        server: laptop2
+        server: homelab-ai
         container: open-webui
+        showStats: true
         siteMonitor: http://100.71.98.85:8080
         
     - Ollama:
         icon: ollama
         href: http://100.71.98.85:11434
         description: Local LLM Engine
-        server: laptop2
+        server: homelab-ai
         container: ollama
+        showStats: true
         siteMonitor: http://100.71.98.85:11434
         widget:
           type: customapi
@@ -54,4 +72,27 @@
           mappings:
             - field: models
               label: Installed Models
-              format: size
+              format: count
+  
+- Infrastructure:
+    - Homepage:
+        icon: homepage
+        href: http://192.168.68.130:${PORT_DASH_HTTP}
+        description: Dashboard
+        server: homelab-media
+        container: homepage
+        showStats: true
+
+    - Docker Proxy (Media):
+        icon: docker
+        description: Local Docker Socket Proxy
+        server: homelab-media
+        container: dockerproxy
+        showStats: true
+
+    - Docker Proxy (AI):
+        icon: docker
+        description: Remote Docker Socket Proxy
+        server: homelab-ai
+        container: dockerproxy
+        showStats: true

@@ -1,11 +1,6 @@
 name: "homepage"
 
 services:
-
-####################
-# Dashboard
-####################
-
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
@@ -25,8 +20,9 @@ services:
 
     volumes:
       - ${HOMEPAGE_CONFIG_DIR}/homepage:/app/config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/seagate_storage:/mnt/seagate_storage:ro
+      - /:/host:ro
+      - /sys:/sys:ro
     
     healthcheck:
       test: wget --spider http://${SERVER_URL}:${PORT_SOCKY_PROXY}/version || exit 1
@@ -41,7 +37,6 @@ services:
           cpus: '1'
           memory: 256M
     restart: unless-stopped
-
 
 networks:
   default:

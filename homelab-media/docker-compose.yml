@@ -6,6 +6,7 @@ include:
   - path: ../services/immich/docker-compose.yml
   - path: ../services/jellyfin/docker-compose.yml
   - path: ../services/public/docker-compose.yml
+  - path: ../services/ai/dockerproxy/docker-compose.yml
 
 networks:
   default:

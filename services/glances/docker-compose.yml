@@ -1,0 +1,15 @@
+name: "glances"
+
+services:
+  glances:
+    image: nicolargo/glances:latest-full
+    container_name: glances
+    restart: unless-stopped
+    pid: host # Allows Glances to read host process stats
+    environment:
+      - GLANCES_OPT=-w # Starts Glances in Web REST API mode on port 61208
+    volumes:
+      - /:/hostfs:ro   # Mounts host drive for accurate disk space reporting
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "61208:61208"

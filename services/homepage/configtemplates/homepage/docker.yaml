@@ -1,6 +1,7 @@
-my-docker:
-  socket: /var/run/docker.sock
-
-laptop2:
+homelab-ai:
   host: 100.71.98.85
+  port: 2375
+
+homelab-media:
+  host: dockerproxy
   port: 2375
