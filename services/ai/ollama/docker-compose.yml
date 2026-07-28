@@ -12,6 +12,7 @@ services:
     environment:
       - OLLAMA_HOST=0.0.0.0:11434    # more explicit (recommended)
       - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_ORIGINS=*
 
 volumes:
   ollama-models:
