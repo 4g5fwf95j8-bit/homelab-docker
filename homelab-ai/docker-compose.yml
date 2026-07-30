@@ -5,6 +5,8 @@ include:
   - path: ../services/ai/open-webui/docker-compose.yml
   - path: ../services/dockerproxy/docker-compose.yml
   - path: ../services/glances/docker-compose.yml
+  - path: ../services/receipt-tracker/docker-compose.yml
+  - path: ../services/grafana/docker-compose.yml
 
 networks:
   default:

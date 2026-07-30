@@ -1,0 +1,17 @@
+apiVersion: 1
+
+datasources:
+  - name: ReceiptTracker
+    type: postgres
+    access: proxy
+    url: receipt-db:5432
+    database: ${RECEIPT_DB_NAME}
+    user: ${RECEIPT_DB_USERNAME}
+    secureJsonData:
+      password: ${RECEIPT_DB_PASSWORD}
+    jsonData:
+      sslmode: disable
+      postgresVersion: 1600
+      timescaledb: false
+    isDefault: true
+    editable: true

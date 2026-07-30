@@ -2,15 +2,15 @@
 # =============================================
 # Laptop 1 Setup Script (Media + Proxy Server)
 # =============================================
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
 echo "Syncing repo from GitHub..."
-./scripts/setup-git.sh
+"${SCRIPT_DIR}/setup-git.sh"
 
 set -e
 
 echo "=== Starting Laptop 1 Setup ==="
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 # Load .env
 if [ -f "${ROOT_DIR}/.env" ]; then
@@ -33,7 +33,7 @@ apt update && apt upgrade -y
 
 if ! command -v docker &> /dev/null; then
     curl -fsSL https://get.docker.com | sh
-    usermod -aG docker ${SUDO_USER:-$USER}
+    usermod -aG docker "${SUDO_USER:-$USER}"
 fi
 
 # Tailscale
@@ -52,20 +52,13 @@ fi
 IMMICH_DATA_DIR="/opt/immich"
 IMMICH_BACKUP_FILE="${ROOT_DIR}/backups/immich-backup.tar.gz"
 
-# Ensure target directory exists
 mkdir -p "${IMMICH_DATA_DIR}"
 
-# Check if the directory is empty
-if [ -z "$(ls -A ${IMMICH_DATA_DIR})" ]; then
+if [ -z "$(ls -A "${IMMICH_DATA_DIR}")" ]; then
     if [ -f "${IMMICH_BACKUP_FILE}" ]; then
         echo "Empty Immich directory detected. Restoring from backup archive..."
-        
-        # Extract the archive
         tar -xzf "${IMMICH_BACKUP_FILE}" -C "${IMMICH_DATA_DIR}"
-        
-        # Ensure correct permissions for the Docker containers
-        chown -R ${PUID:-1000}:${PGID:-1000} "${IMMICH_DATA_DIR}"
-        
+        chown -R "${PUID:-1000}:${PGID:-1000}" "${IMMICH_DATA_DIR}"
         echo "Immich data successfully restored!"
     else
         echo "No backup archive found at ${IMMICH_BACKUP_FILE}. Skipping restore (fresh start)."
@@ -78,15 +71,13 @@ fi
 JELLYFIN_CONFIG_DIR="/opt/jellyfin/config"
 JELLYFIN_BACKUP_FILE="${ROOT_DIR}/backups/jellyfin-config-backup.tar.gz"
 
-# Ensure target directory exists
 mkdir -p "${JELLYFIN_CONFIG_DIR}"
 
-# Check if the directory is empty
-if [ -z "$(ls -A ${JELLYFIN_CONFIG_DIR})" ]; then
+if [ -z "$(ls -A "${JELLYFIN_CONFIG_DIR}")" ]; then
     if [ -f "${JELLYFIN_BACKUP_FILE}" ]; then
         echo "Empty Jellyfin directory detected. Restoring from backup archive..."
         tar -xzf "${JELLYFIN_BACKUP_FILE}" -C "${JELLYFIN_CONFIG_DIR}"
-        chown -R ${PUID:-1000}:${PGID:-1000} "${JELLYFIN_CONFIG_DIR}"
+        chown -R "${PUID:-1000}:${PGID:-1000}" "${JELLYFIN_CONFIG_DIR}"
         echo "Jellyfin config successfully restored!"
     else
         echo "No backup archive found at ${JELLYFIN_BACKUP_FILE}. Skipping restore (fresh start)."
@@ -152,26 +143,22 @@ mkdir -p /mnt/seagate_storage/{jellyfin,immich}
 
 # --- Local (ext4) config folders — real chown works fine here ---
 mkdir -p /srv/{homepage,pricebuddy,caddy} /opt/jellyfin/{config,cache} /opt/immich
-chown -R ${PUID:-1000}:${PGID:-1000} /srv /opt/jellyfin /opt/immich 2>/dev/null || true
+chown -R "${PUID:-1000}:${PGID:-1000}" /srv /opt/jellyfin /opt/immich 2>/dev/null || true
 
 echo "Storage setup complete."
 
+# =============================================
 # Start services
+# =============================================
 echo "Starting services..."
 cd "${ROOT_DIR}/homelab-media" || exit 1
 docker compose pull
+docker compose build
 docker compose up -d
+
+echo "Cleaning up old Docker images..."
+docker image prune -f
 
 echo "=== Laptop 1 Setup Complete! ==="
 echo "Tailscale IP: $(tailscale ip -4 2>/dev/null || echo 'Not connected')"
 docker ps
-
-# Start services
-echo "Starting services..."
-cd "${ROOT_DIR}/homelab-media" || exit 1
-docker compose pull
-docker compose up -d
-
-# Clean up dangling images left behind by updates
-echo "Cleaning up old Docker images..."
-docker image prune -f

@@ -1,0 +1,52 @@
+name: "receipt-tracker"
+
+services:
+  receipt-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: receipt-api
+    restart: unless-stopped
+
+    depends_on:
+      receipt-db:
+        condition: service_healthy
+
+    ports:
+      - ${PORT_RECEIPT_API}:8000
+
+    environment:
+      DB_HOST: receipt-db
+      DB_USER: ${RECEIPT_DB_USERNAME}
+      DB_PASSWORD: ${RECEIPT_DB_PASSWORD}
+      DB_NAME: ${RECEIPT_DB_NAME}
+      OLLAMA_HOST: http://ollama:11434
+      OLLAMA_MODEL: ${RECEIPT_OLLAMA_MODEL:-llama3.2:3b}
+
+    volumes:
+      - receipt_uploads:/app/uploads
+
+  receipt-db:
+    image: postgres:16-alpine
+    container_name: receipt-db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: ${RECEIPT_DB_USERNAME}
+      POSTGRES_PASSWORD: ${RECEIPT_DB_PASSWORD}
+      POSTGRES_DB: ${RECEIPT_DB_NAME}
+
+    volumes:
+      - receipt_db:/var/lib/postgresql/data
+      - ./app/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${RECEIPT_DB_USERNAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  receipt_uploads:
+  receipt_db:

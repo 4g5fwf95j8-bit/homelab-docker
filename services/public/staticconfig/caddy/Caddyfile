@@ -27,3 +27,13 @@ pricebuddy.gsofianos.duckdns.org {
 ai.gsofianos.duckdns.org {
     reverse_proxy 100.71.98.85:8080
 }
+
+# Receipt Tracker API (server2-ai) - confirm Tailscale IP matches, update PORT_RECEIPT_API to match .env
+receipts.gsofianos.duckdns.org {
+    reverse_proxy 100.71.98.85:8001
+}
+
+# Grafana (server2-ai) - update port to match PORT_GRAFANA in .env
+grafana.gsofianos.duckdns.org {
+    reverse_proxy 100.71.98.85:3001
+}
