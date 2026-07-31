@@ -21,10 +21,10 @@ disableIndexing: true
 layout:
   header: false
   columns: 4
-  
+
   Media:
     header: true
-    style: column
+    style: row
 
   Immich-More:
     header: false
@@ -33,8 +33,8 @@ layout:
 
   AI Tools:
     header: true
-    style: column
+    style: row
   
   Apps:
+    iconsOnly: true
     header: true
-    style: column
