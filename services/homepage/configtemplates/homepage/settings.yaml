@@ -21,7 +21,7 @@ layout:
     style: row
     columns: 2
   Apps:
-    style: boxed
+    style: row
     columns: 4
   Host Nodes:
     style: boxedWidgets
