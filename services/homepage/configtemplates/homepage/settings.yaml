@@ -8,8 +8,10 @@ allowedHosts:
 title: Sofianos Server Dashboard
 logo: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/shoko-server.png
 header: true
+headerStyle: boxedWidgets
 footer: false
 cardBlur: xs
+statusStyle: "dot"
 
 layout:
   Host Nodes:
@@ -24,3 +26,5 @@ layout:
   Apps:
     style: clean
     columns: 4
+    iconsOnly: true
+
