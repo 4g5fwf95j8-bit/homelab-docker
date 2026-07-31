@@ -30,7 +30,7 @@ layout:
         header: false
       Immich-More:
         header: false
-        style: row
+        style: clean
         columns: 2
 
     AI Tools:
