@@ -1,4 +1,3 @@
----
 allowedHosts:
   - localhost
   - 127.0.0.1
@@ -21,30 +20,23 @@ statusStyle: "dot"
 disableIndexing: true
 
 layout:
-  Main Container:
+  Media:
+    header: true
+    style: column
+
+  Immich-More:
     header: false
     style: row
-    columns: 4
+    columns: 2
 
-    Media:
-      header: true
-
-      Media-Main:
-        header: false
-
-      Immich-More:
-        header: false
-        style: row
-        columns: 2
-
-    AI Tools:
-      header: true
-      style: row
-    
-    Apps:
-      header: true
-      style: row
-    
-    Host Nodes:
-      header: true
-      style: row
+  AI Tools:
+    header: true
+    style: column
+  
+  Apps:
+    header: true
+    style: column
+  
+  Host Nodes:
+    header: true
+    style: column
