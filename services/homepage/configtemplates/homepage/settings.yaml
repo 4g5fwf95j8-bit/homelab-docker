@@ -14,9 +14,6 @@ cardBlur: xs
 statusStyle: "dot"
 
 layout:
-  Host Nodes:
-    style: boxedWidgets
-    columns: 2
   Media:
     style: row
     columns: 2
@@ -26,5 +23,6 @@ layout:
   Apps:
     style: boxed
     columns: 4
-    iconsOnly: true
-
+  Host Nodes:
+    style: boxedWidgets
+    columns: 2
