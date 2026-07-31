@@ -112,9 +112,15 @@ docker compose up -d
 - run this to copy it to the server:
 
 ```
-scp -r /Users/georgesofianos/github/homelab-docker/.env gsofianos@192.168.68.130:/opt/docker/homelab-docker/
+syncenv
 ```
-# Authorize the scripts to be run
+
+# Deploying to the Servers
+`In the /opt/docker/homelab-docker/` folder, run:
 ```
-sudo chmod +x /opt/docker/homelab-docker/scripts/*
+sudo ./scripts/setup-media.sh
+```
+OR
+```
+sudo ./scripts/setup-ai.sh
 ```
