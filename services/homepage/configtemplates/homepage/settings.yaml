@@ -15,7 +15,7 @@ statusStyle: "dot"
 
 layout:
   Host Nodes:
-    style: row
+    style: boxedWidgets
     columns: 2
   Media:
     style: row
@@ -24,7 +24,7 @@ layout:
     style: row
     columns: 2
   Apps:
-    style: clean
+    style: boxed
     columns: 4
     iconsOnly: true
 
