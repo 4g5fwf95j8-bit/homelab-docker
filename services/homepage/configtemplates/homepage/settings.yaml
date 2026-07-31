@@ -16,7 +16,6 @@ color: slate
 disableCollapse: true
 bookmarksStyle: icons
 showStats: true
-statusStyle: "dot"
 disableIndexing: true
 
 layout:
@@ -34,9 +33,5 @@ layout:
     style: column
   
   Apps:
-    header: true
-    style: column
-  
-  Host Nodes:
     header: true
     style: column
