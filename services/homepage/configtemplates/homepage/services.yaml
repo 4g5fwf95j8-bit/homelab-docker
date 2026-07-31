@@ -12,7 +12,7 @@
                 widget:
                   type: jellyfin
                   url: https://jellyfin.gsofianos.duckdns.org
-                  key: [REDACTED]
+                  key: 28e35cc8dad846d584ef8b6292f55d6b
                   enableBlocks: true
                   enableNowPlaying: true
                   enableUser: true
@@ -29,7 +29,7 @@
                 widget:
                   type: immich
                   url: https://immich.gsofianos.duckdns.org
-                  key: [REDACTED]
+                  key: 0dxTMLWosWGHuB7v47oRCWFbS6THliOeWyLErDM
                   version: 2
         - Immich-More:
             - immich_server:
@@ -87,14 +87,12 @@
             server: homelab-ai
             container: receipt-api
             showStats: true
-            siteMonitor: https://receipts.gsofianos.duckdns.org
         - Pricecheck:
             icon: mdi-barcode-scan
             description: Barcode Price Lookup
             server: homelab-media
             container: pricecheck
             showStats: true
-            siteMonitor: https://pricecheck.gsofianos.duckdns.org
         - Grafana:
             icon: grafana
             href: https://grafana.gsofianos.duckdns.org
@@ -111,19 +109,9 @@
             server: homelab-media
             ping: 192.168.68.130
             container: homepage
-            widget:
-              type: glances
-              url: http://192.168.68.130:61208
-              version: 4
-              metric: info
         - AI Server:
             icon: mdi-cloud-check-variant
             description: Ollama & AI Inference Host
             server: homelab-ai
             ping: 100.71.98.85
             container: dockerproxy
-            widget:
-              type: glances
-              url: http://100.71.98.85:61208
-              version: 4
-              metric: info

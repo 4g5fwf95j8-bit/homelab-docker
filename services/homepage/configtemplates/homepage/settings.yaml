@@ -16,7 +16,6 @@ color: slate
 disableCollapse: true
 bookmarksStyle: icons
 showStats: true
-statusStyle: "dot"
 disableIndexing: true
 
 layout:
@@ -27,23 +26,18 @@ layout:
 
     Media:
       header: true
-      # default style is column → items stack vertically
       Media-Main:
         header: false
-        # default column → Jellyfin + Immich stack on top of each other
       Immich-More:
         header: false
         style: row
-        columns: 2          # ← this creates the 2×2 quadrant
+        columns: 2
 
     AI Tools:
       header: true
-      # default column → Open WebUI + Ollama stack
 
     Apps:
       header: true
-      # default column → Pricebuddy, Receipt Tracker, etc. stack
 
     Host Nodes:
       header: true
-      # default column → Media Server + AI Server stack
