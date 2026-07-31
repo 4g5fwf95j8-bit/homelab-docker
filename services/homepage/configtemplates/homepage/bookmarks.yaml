@@ -2,4 +2,5 @@
   - Github:
     - icon: github
       abbr: GH
+      style: boxed
       href: https://github.com/4g5fwf95j8-bit/homelab-docker

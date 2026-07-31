@@ -5,13 +5,11 @@ allowedHosts:
   - homepage
   - homepage.gsofianos.duckdns.org
 
-title: Sofianos Server Dashboard
-logo: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/shoko-server.png
 header: true
 headerStyle: boxedWidgets
 footer: false
 cardBlur: xs
-statusStyle: "dot"
+fullWidth: false
 
 layout:
   Media:
