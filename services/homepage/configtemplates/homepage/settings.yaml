@@ -15,9 +15,12 @@ layout:
   Host Nodes:
     style: row
     columns: 2
-  Media & Apps:
+  Media:
     style: row
-    columns: 3
+    columns: 2
   AI Tools:
     style: row
     columns: 2
+  Apps:
+    style: clean
+    columns: 4

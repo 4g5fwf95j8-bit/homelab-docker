@@ -1,14 +1,15 @@
 name: homelab-media
-
+ 
 include:
   - path: ../services/pricebuddy/docker-compose.yml
+  - path: ../services/pricecheck/docker-compose.yml
   - path: ../services/homepage/docker-compose.yml
   - path: ../services/immich/docker-compose.yml
   - path: ../services/jellyfin/docker-compose.yml
   - path: ../services/public/docker-compose.yml
   - path: ../services/dockerproxy/docker-compose.yml
   - path: ../services/glances/docker-compose.yml
-
+ 
 networks:
   default:
     name: homelab-media-network

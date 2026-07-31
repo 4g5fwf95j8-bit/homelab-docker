@@ -1,30 +1,5 @@
-- Host Nodes:
-    - Media Server:
-        icon: /icons/icon_server-media.png
-        description: Primary Storage & Media Host
-        server: homelab-media
-        ping: 192.168.68.130         # Live heartbeat ping check
-        container: homepage
-        widget:
-            type: glances
-            url: http://192.168.68.130:61208  # Glances URL required
-            version: 4
-            metric: info
-
-    - AI Server:
-        icon: /icons/icon_server-ai.png
-        description: Ollama & AI Inference Host
-        server: homelab-ai
-        ping: 100.71.98.85          # Tailscale ping check
-        container: dockerproxy
-        widget:
-            type: glances
-            url: http://100.71.98.85:61208
-            version: 4
-            metric: info
-
-- Media & Apps:
-  - Jellyfin:
+- Media:
+    - Jellyfin:
         icon: jellyfin
         href: https://jellyfin.gsofianos.duckdns.org
         description: Media Server
@@ -42,7 +17,7 @@
             showEpisodeNumber: true
             expandOneStreamToTwoRows: false
 
-  - Immich:
+    - Immich:
         icon: immich
         href: https://immich.gsofianos.duckdns.org
         description: Photo Library
@@ -55,15 +30,6 @@
             url: https://immich.gsofianos.duckdns.org
             key: 0dxTMLWosWGHuB7v47oRCWFbS6THliOeWyLErDM
             version: 2
-
-  - Pricebuddy:
-        icon: https://raw.githubusercontent.com/jez500/pricebuddy/main/public/favicon.ico
-        href: https://pricebuddy.gsofianos.duckdns.org
-        description: Price Tracking
-        server: homelab-media
-        container: pricebuddy
-        showStats: true
-        siteMonitor: https://pricebuddy.gsofianos.duckdns.org
 
 - AI Tools:
     - Open WebUI:
@@ -90,3 +56,65 @@
                 - field: models
                   label: Installed Models
                   format: size
+
+- Host Nodes:
+    - Media Server:
+        icon: /icons/icon_server-media.png
+        description: Primary Storage & Media Host
+        server: homelab-media
+        ping: 192.168.68.130         # Live heartbeat ping check
+        container: homepage
+        widget:
+            type: glances
+            url: http://192.168.68.130:61208  # Glances URL required
+            version: 4
+            metric: info
+
+    - AI Server:
+        icon: /icons/icon_server-ai.png
+        description: Ollama & AI Inference Host
+        server: homelab-ai
+        ping: 100.71.98.85          # Tailscale ping check
+        container: dockerproxy
+        widget:
+            type: glances
+            url: http://100.71.98.85:61208
+            version: 4
+            metric: info
+
+- Apps:
+    - Pricebuddy:
+        icon: https://raw.githubusercontent.com/jez500/pricebuddy/main/public/favicon.ico
+        href: https://pricebuddy.gsofianos.duckdns.org
+        description: Price Tracking
+        server: homelab-media
+        container: pricebuddy
+        showStats: true
+        siteMonitor: https://pricebuddy.gsofianos.duckdns.org
+    
+    - Receipt Tracker:
+        icon: mdi-receipt-text-outline
+        href: https://receipts.gsofianos.duckdns.org
+        description: Grocery Spend Tracker
+        server: homelab-ai
+        container: receipt-api
+        showStats: true
+        siteMonitor: https://receipts.gsofianos.duckdns.org
+
+    - Pricecheck:
+        icon: mdi-barcode-scan
+        href: https://pricecheck.gsofianos.duckdns.org
+        description: Barcode Price Lookup
+        server: homelab-media
+        container: pricecheck
+        showStats: true
+        siteMonitor: https://pricecheck.gsofianos.duckdns.org
+
+    - Grafana:
+        icon: grafana
+        href: https://grafana.gsofianos.duckdns.org
+        description: Metrics Dashboard
+        server: homelab-ai
+        container: grafana
+        showStats: true
+        siteMonitor: https://grafana.gsofianos.duckdns.org

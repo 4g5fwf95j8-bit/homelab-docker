@@ -23,6 +23,11 @@ pricebuddy.gsofianos.duckdns.org {
     reverse_proxy pricebuddy:80
 }
 
+# Pricecheck (barcode -> cheapest store price lookup, uses PriceBuddy above)
+pricecheck.gsofianos.duckdns.org {
+    reverse_proxy pricecheck:8000
+}
+
 # AI
 ai.gsofianos.duckdns.org {
     reverse_proxy 100.71.98.85:8080

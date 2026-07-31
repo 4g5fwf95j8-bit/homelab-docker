@@ -1,0 +1,20 @@
+name: "pricecheck"
+ 
+services:
+  pricecheck:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pricecheck
+    restart: unless-stopped
+ 
+    ports:
+      - ${PORT_PRICECHECK}:8000
+ 
+    environment:
+      # Same box as pricebuddy (homelab-media), so this is a direct
+      # container-name reference on the homelab-media-network, same
+      # pattern as receipt-tracker -> ollama on homelab-ai-network.
+      PRICEBUDDY_BASE_URL: http://pricebuddy
+      PRICEBUDDY_API_TOKEN: ${PRICEBUDDY_API_TOKEN}
+ 
