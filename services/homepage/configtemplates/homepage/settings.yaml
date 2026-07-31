@@ -19,6 +19,9 @@ showStats: true
 disableIndexing: true
 
 layout:
+  header: false
+  columns: 4
+  
   Media:
     header: true
     style: column
