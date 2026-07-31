@@ -2,7 +2,7 @@
    Global Layout: Restrict maximum page width and center it
    ============================================================ */
 main {
-  max-width: 75% !important;
+  max-width: 50% !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
