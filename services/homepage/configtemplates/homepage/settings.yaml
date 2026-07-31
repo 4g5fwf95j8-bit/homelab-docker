@@ -18,17 +18,33 @@ disableCollapse: true
 bookmarksStyle: icons
 showStats: true
 statusStyle: "dot"
+disableIndexing: true
 
 layout:
-  Media:
-    style: row
-    columns: 2
-  AI Tools:
-    style: row
-    columns: 2
-  Apps:
+  Main Container:
+    header: false
     style: row
     columns: 4
-  Host Nodes:
-    style: boxedWidgets
-    columns: 2
+
+    Media:
+      header: true
+
+      Media-Main:
+        header: false
+
+      Immich-More:
+        header: false
+        style: row
+        columns: 2
+
+    AI Tools:
+      header: true
+      style: row
+    
+    Apps:
+      header: true
+      style: row
+    
+    Host Nodes:
+      header: true
+      style: row

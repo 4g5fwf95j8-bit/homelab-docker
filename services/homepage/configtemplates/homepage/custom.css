@@ -1,13 +1,4 @@
 /* ============================================================
-   Global Layout: Restrict maximum page width and center it
-   ============================================================ */
-main {
-  max-width: 50% !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-/* ============================================================
    Force the top information widgets into a strict vertical stack
    (one full-width row per Glances block)
    ============================================================ */
