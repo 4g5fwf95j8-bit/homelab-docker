@@ -5,11 +5,19 @@ allowedHosts:
   - homepage
   - homepage.gsofianos.duckdns.org
 
+title: Sofianos Server Dashboard
 header: true
 headerStyle: boxedWidgets
 footer: false
 cardBlur: xs
 fullWidth: false
+useEqualHeights: true
+theme: dark
+color: slate
+disableCollapse: true
+bookmarksStyle: icons
+showStats: true
+statusStyle: "dot"
 
 layout:
   Media:
