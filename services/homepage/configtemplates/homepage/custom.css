@@ -42,8 +42,7 @@
 
   /* Right side = logo */
   #information-widgets-right,
-  .information-widget-logo,
-  #widgets-wrap + div {
+  .information-widget-logo {
     flex: 0 0 auto !important;
     align-self: center !important;   /* vertically center the logo */
   }
@@ -51,7 +50,7 @@
   /* Optional: control logo size */
   .information-widget-logo img,
   .information-widget-logo svg {
-    height: 80px !important;         /* adjust to taste */
+    height: 72px !important;         /* adjust to taste */
     width: auto !important;
   }
 }
