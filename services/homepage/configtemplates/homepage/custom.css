@@ -1,20 +1,39 @@
+/* ===== Main content width (body) ===== */
 @media (min-width: 1280px) {
   #page_container,
-  .container {
+  .container,
+  #layout-groups {
     max-width: 50% !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    width: 100% !important;
   }
 }
 
-.flex.flex-wrap.justify-center,          /* common Tailwind wrapper */
-  #widgets,
-  [id*="widget"] {
-    max-width: 100% !important;
+/* ===== Top information widgets (Media Server + AI Server) ===== */
+@media (min-width: 1280px) {
+  /* Target the container that holds the glances/resources widgets */
+  #information-widgets,
+  .information-widgets,
+  div[class*="information-widgets"],
+  .flex.flex-wrap.justify-center:has(.widget),
+  .flex.flex-wrap.justify-center {
+    max-width: 50% !important;          /* EXACT same width as the body */
     margin-left: auto !important;
     margin-right: auto !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;       /* keep them side-by-side */
+    gap: 0.75rem !important;
   }
 
-.flex.flex-wrap.justify-center > div {
-    flex: 1 1 45% !important;   /* two equal cards with a little gap */
+  /* Force each of the two server cards to expand and share the space equally */
+  #information-widgets > div,
+  .information-widgets > div,
+  .flex.flex-wrap.justify-center > div {
+    flex: 1 1 0% !important;
+    max-width: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
   }
+}
