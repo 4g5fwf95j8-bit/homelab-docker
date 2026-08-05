@@ -1,20 +1,15 @@
-/* Stretch the top information widgets (Media Server + AI Server) 
-   to the same max-width as the main content area */
 @media (min-width: 1280px) {
-  /* The container that holds all info widgets */
-  #information-widgets,
-  .information-widgets,
-  [class*="information"] {
-    max-width: 50% !important;   /* same value you used for the main content */
+  /* Force the whole top widget row to the same constrained width */
+  .flex.flex-wrap.justify-center,          /* common Tailwind wrapper */
+  #widgets,
+  [id*="widget"] {
+    max-width: 50% !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    width: 100% !important;
   }
 
-  /* Make the two individual cards share the space equally and fill it */
-  #information-widgets > div,
-  .information-widgets > div {
-    flex: 1 1 0% !important;
-    max-width: none !important;
+  /* Ensure the two server cards expand to fill that width */
+  .flex.flex-wrap.justify-center > div {
+    flex: 1 1 45% !important;   /* two equal cards with a little gap */
   }
 }
