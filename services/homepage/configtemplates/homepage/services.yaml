@@ -1,6 +1,7 @@
 - Main Container:
     - Filler1:
         content: ""
+        style: row
     - Media:
         - Media-Main:
             - Jellyfin:
@@ -109,6 +110,9 @@
                     container: grafana
                     showStats: false
                     siteMonitor: https://grafana.gsofianos.duckdns.org
+    - Filler2:
+        content: ""
+        style: row
 #        - Scrypted:
 #            icon: scrypted
 #            # Direct LAN link, not routed through Caddy/DuckDNS — same reasoning
