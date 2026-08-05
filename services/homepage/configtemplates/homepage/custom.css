@@ -10,14 +10,8 @@
 #information-widgets,
   .information-widgets,
   [class*="information"] {
-    max-width: 100% !important;   /* same value you used for the main content */
+    max-width: 50% !important;   /* same value you used for the main content */
     margin-left: auto !important;
     margin-right: auto !important;
     width: 100% !important;
-
-    #information-widgets > div,
-  .information-widgets > div {
-    flex: 1 1 0% !important;
-    max-width: none !important;
-  }
 }
