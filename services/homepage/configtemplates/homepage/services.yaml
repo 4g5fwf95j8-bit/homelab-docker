@@ -76,35 +76,36 @@
                   label: Installed Models
                   format: size
 
-    - Apps:
-        - Pricebuddy:
-            icon: https://raw.githubusercontent.com/jez500/pricebuddy/main/public/favicon.ico
-            href: https://pricebuddy.gsofianos.duckdns.org
-            description: Price Tracking
-            server: homelab-media
-            container: pricebuddy
-            siteMonitor: https://pricebuddy.gsofianos.duckdns.org
-            showStats: false
-        - Receipt Tracker:
-            icon: mdi-receipt-text-outline
-            description: Grocery Spend Tracker
-            server: homelab-ai
-            container: receipt-api
-            showStats: false
-        - Pricecheck:
-            icon: mdi-barcode-scan
-            description: Barcode Price Lookup
-            server: homelab-media
-            container: pricecheck
-            showStats: false
-        - Grafana:
-            icon: grafana
-            href: https://grafana.gsofianos.duckdns.org
-            description: Metrics Dashboard
-            server: homelab-ai
-            container: grafana
-            showStats: false
-            siteMonitor: https://grafana.gsofianos.duckdns.org
+    - Apps Container:
+        - Apps:
+            - Pricebuddy:
+                icon: https://raw.githubusercontent.com/jez500/pricebuddy/main/public/favicon.ico
+                href: https://pricebuddy.gsofianos.duckdns.org
+                description: Price Tracking
+                server: homelab-media
+                container: pricebuddy
+                siteMonitor: https://pricebuddy.gsofianos.duckdns.org
+                showStats: false
+            - Receipt Tracker:
+                icon: mdi-receipt-text-outline
+                description: Grocery Spend Tracker
+                server: homelab-ai
+                container: receipt-api
+                showStats: false
+            - Pricecheck:
+                icon: mdi-barcode-scan
+                description: Barcode Price Lookup
+                server: homelab-media
+                container: pricecheck
+                showStats: false
+            - Grafana:
+                icon: grafana
+                href: https://grafana.gsofianos.duckdns.org
+                description: Metrics Dashboard
+                server: homelab-ai
+                container: grafana
+                showStats: false
+                siteMonitor: https://grafana.gsofianos.duckdns.org
 #        - Scrypted:
 #            icon: scrypted
 #            # Direct LAN link, not routed through Caddy/DuckDNS — same reasoning

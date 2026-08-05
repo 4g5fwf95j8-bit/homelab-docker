@@ -36,10 +36,14 @@ layout:
     AI Tools:
       header: true
 
-    Apps:
-      header: true
+    Apps Container:
+      header: false
       style: row
-      columns: 2
+      
+      Apps:
+        header: true
+        style: row
+        columns: 2
 
 #    Host Nodes:
 #      header: true
