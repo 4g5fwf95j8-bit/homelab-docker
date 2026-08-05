@@ -16,41 +16,54 @@
     margin-left: auto !important;
     margin-right: auto !important;
     width: 100% !important;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    gap: 1.5rem !important;
   }
 
-  /* Left side = stacked title + two server cards */
+  /* Turn the widgets row into a 2-column grid */
   #widgets-wrap {
-    flex: 1 1 auto !important;
-    width: auto !important;
-    max-width: none !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0.75rem !important;
-  }
-
-  /* Title + both server cards stay full width of the left column */
-  #widgets-wrap > .information-widget-greeting,
-  #widgets-wrap > a.information-widget-glances,
-  #widgets-wrap > a.information-widget-resources {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;   /* left = content, right = logo */
+    grid-template-rows: auto auto auto !important;
+    gap: 0.75rem 1.5rem !important;
     width: 100% !important;
-    max-width: 100% !important;
+    align-items: start !important;
   }
 
-  /* Right side = logo */
-  #information-widgets-right,
-  .information-widget-logo {
-    flex: 0 0 auto !important;
-    align-self: center !important;   /* vertically center the logo */
+  /* Title → row 1, column 1 */
+  #widgets-wrap > .information-widget-greeting {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
   }
 
-  /* Optional: control logo size */
+  /* Media Server card → row 2, column 1 */
+  #widgets-wrap > a.information-widget-glances:nth-of-type(1),
+  #widgets-wrap > a.information-widget-resources:nth-of-type(1) {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    width: 100% !important;
+  }
+
+  /* AI Server card → row 3, column 1 */
+  #widgets-wrap > a.information-widget-glances:nth-of-type(2),
+  #widgets-wrap > a.information-widget-resources:nth-of-type(2) {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+    width: 100% !important;
+  }
+
+  /* Logo → spans all three rows on the right */
+  #widgets-wrap > .information-widget-logo {
+    grid-column: 2 !important;
+    grid-row: 1 / -1 !important;          /* span the full height */
+    align-self: center !important;
+    justify-self: end !important;
+  }
+
+  /* Size the logo */
   .information-widget-logo img,
   .information-widget-logo svg {
-    height: 72px !important;         /* adjust to taste */
+    height: 140px !important;             /* adjust to taste */
     width: auto !important;
+    max-width: 180px !important;
   }
 }
