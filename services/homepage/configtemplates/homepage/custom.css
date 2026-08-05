@@ -10,7 +10,7 @@
 #information-widgets,
   .information-widgets,
   [class*="information"] {
-    max-width: 50% !important;   /* same value you used for the main content */
+    max-width: 100% !important;   /* same value you used for the main content */
     margin-left: auto !important;
     margin-right: auto !important;
     width: 100% !important;
