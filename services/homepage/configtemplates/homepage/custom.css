@@ -10,7 +10,6 @@
 .flex.flex-wrap.justify-center,          /* common Tailwind wrapper */
   #widgets,
   [id*="widget"] {
-    max-width: 50% !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
