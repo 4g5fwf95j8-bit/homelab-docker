@@ -22,12 +22,7 @@ layout:
   Main Container:
     header: false
     style: row
-    columns: 4
-
-    Filler1:
-      header: false
-      style: markdown
-      content: "&nbsp;"
+    columns: 2
 
     Media:
       header: true
@@ -52,10 +47,5 @@ layout:
           header: true
           style: row
           columns: 2
-
-    Filler2:
-      header: false
-      style: markdown
-      content: "&nbsp;"
 #    Host Nodes:
 #      header: true

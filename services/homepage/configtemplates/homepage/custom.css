@@ -1,0 +1,9 @@
+/* Center the whole dashboard and limit its width to ~50% on large screens */
+@media (min-width: 1280px) {
+  #page_container,
+  .container {
+    max-width: 50% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
