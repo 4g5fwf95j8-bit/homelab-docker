@@ -75,8 +75,8 @@
                 url: http://100.71.98.85:11434/api/tags
                 mappings:
                     - field: models
-                    label: Installed Models
-                    format: size
+                      label: Installed Models
+                      format: size
 
         - Apps Container:
             - Apps:
