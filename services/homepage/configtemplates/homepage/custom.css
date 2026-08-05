@@ -1,15 +1,23 @@
 @media (min-width: 1280px) {
-  /* Force the whole top widget row to the same constrained width */
-  .flex.flex-wrap.justify-center,          /* common Tailwind wrapper */
-  #widgets,
-  [id*="widget"] {
+  #page_container,
+  .container {
     max-width: 50% !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
+}
 
-  /* Ensure the two server cards expand to fill that width */
-  .flex.flex-wrap.justify-center > div {
-    flex: 1 1 45% !important;   /* two equal cards with a little gap */
+#information-widgets,
+  .information-widgets,
+  [class*="information"] {
+    max-width: 50% !important;   /* same value you used for the main content */
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+
+    #information-widgets > div,
+  .information-widgets > div {
+    flex: 1 1 0% !important;
+    max-width: none !important;
   }
 }
