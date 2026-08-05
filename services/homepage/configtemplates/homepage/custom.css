@@ -32,18 +32,13 @@
   .information-widget-greeting,
   .information-widget-greeting span,
   #widgets-wrap > .information-widget-greeting span {
-    font-size: 2.25rem !important;          /* bigger – adjust 1.8rem → 3rem as you like */
+    font-size: 2.4rem !important;
     font-weight: 700 !important;
-    letter-spacing: 0.04em !important;
-    line-height: 1.2 !important;
-
-    color: #f1f5f9 !important;                 /* soft white */
- 
-    /* Etched / inset effect */
+    letter-spacing: 0.05em !important;
+    color: #F8FAFC !important;
     text-shadow:
-      1px 1px 1px rgba(0, 0, 0, 0.85),
-      2px 2px 3px rgba(0, 0, 0, 0.5),
-      -1px -1px 1px rgba(255, 255, 255, 0.12);  
+      0 1px 0 rgba(0,0,0,0.8),
+      0 0 18px rgba(56, 189, 248, 0.35);  
 }
 
   /* Title → row 1, column 1 */
@@ -51,7 +46,6 @@
     grid-column: 2 !important;
     grid-row: 1 !important;
     width: 100% !important;
-    height: 80px;
     text-align: center;
   }
 
@@ -85,12 +79,10 @@
   .information-widget-logo > div,
   .information-widget-logo a {
     background: transparent !important;
-    background-color: transparent !important;
     box-shadow: none !important;
     border: none !important;
     border-radius: 0 !important;
     padding: 0 !important;
-    margin: 0 !important;
   }
 
   /* Size the logo */
