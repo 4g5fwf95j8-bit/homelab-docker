@@ -30,7 +30,7 @@ layout:
         header: false
       Immich-More:
         header: false
-        style: clean
+        style: row
         columns: 2
 
     AI Tools:
@@ -39,5 +39,5 @@ layout:
     Apps:
       header: true
 
-    Host Nodes:
-      header: true
+#    Host Nodes:
+#      header: true

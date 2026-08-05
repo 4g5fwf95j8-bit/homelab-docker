@@ -158,7 +158,7 @@ echo "Starting services..."
 cd "${ROOT_DIR}/homelab-media" || exit 1
 docker compose pull
 docker compose build
-docker compose up -d
+docker compose up -d --remove-orphans
 
 echo "Cleaning up old Docker images..."
 docker image prune -f

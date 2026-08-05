@@ -36,16 +36,20 @@
                 icon: immich-public-proxy
                 server: homelab-media
                 container: immich_server
+                showStats: false
             - immich_postgress:
                 icon: postgres
                 server: homelab-media
                 container: immich_postgress
+                showStats: false
             - immich_machine_leadning:
                 icon: mdi-brain
+                showStats: false
             - immich_redis:
                 icon: redis
                 server: homelab-media
                 container: immich_redis
+                showStats: false
 
     - AI Tools:
         - Open WebUI:
@@ -79,50 +83,50 @@
             description: Price Tracking
             server: homelab-media
             container: pricebuddy
-            showStats: true
             siteMonitor: https://pricebuddy.gsofianos.duckdns.org
+            showStats: false
         - Receipt Tracker:
             icon: mdi-receipt-text-outline
             description: Grocery Spend Tracker
             server: homelab-ai
             container: receipt-api
-            showStats: true
+            showStats: false
         - Pricecheck:
             icon: mdi-barcode-scan
             description: Barcode Price Lookup
             server: homelab-media
             container: pricecheck
-            showStats: true
+            showStats: false
         - Grafana:
             icon: grafana
             href: https://grafana.gsofianos.duckdns.org
             description: Metrics Dashboard
             server: homelab-ai
             container: grafana
-            showStats: true
+            showStats: false
             siteMonitor: https://grafana.gsofianos.duckdns.org
-        - Scrypted:
-            icon: scrypted
-            # Direct LAN link, not routed through Caddy/DuckDNS — same reasoning
-            # as the Ollama entry above: this is a camera admin panel, so it
-            # stays off the public subdomains. network_mode: host means it's
-            # reachable straight on the media host's own IP.
-            href: http://192.168.68.130:11080
-            description: Camera Bridge (HomeKit)
-            server: homelab-media
-            container: scrypted
-            showStats: true
+#        - Scrypted:
+#            icon: scrypted
+#            # Direct LAN link, not routed through Caddy/DuckDNS — same reasoning
+#            # as the Ollama entry above: this is a camera admin panel, so it
+#            # stays off the public subdomains. network_mode: host means it's
+#            # reachable straight on the media host's own IP.
+#            href: http://192.168.68.130:11080
+#            description: Camera Bridge (HomeKit)
+#            server: homelab-media
+#            container: scrypted
+#            showStats: true
 
-    - Host Nodes:
-        - Media Server:
-            icon: mdi-play-network
-            description: Primary Storage & Media Host
-            server: homelab-media
-            ping: 192.168.68.130
-            container: homepage
-        - AI Server:
-            icon: mdi-cloud-check-variant
-            description: Ollama & AI Inference Host
-            server: homelab-ai
-            ping: 100.71.98.85
-            container: dockerproxy
+#    - Host Nodes:
+#        - Media Server:
+#            icon: mdi-play-network
+#            description: Primary Storage & Media Host
+#            server: homelab-media
+#            ping: 192.168.68.130
+#            container: homepage
+#        - AI Server:
+#            icon: mdi-cloud-check-variant
+#            description: Ollama & AI Inference Host
+#            server: homelab-ai
+#            ping: 100.71.98.85
+#            container: dockerproxy
