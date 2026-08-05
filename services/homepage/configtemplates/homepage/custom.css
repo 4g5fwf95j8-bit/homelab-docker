@@ -1,9 +1,20 @@
-/* Center the whole dashboard and limit its width to ~50% on large screens */
+/* Stretch the top information widgets (Media Server + AI Server) 
+   to the same max-width as the main content area */
 @media (min-width: 1280px) {
-  #page_container,
-  .container {
-    max-width: 50% !important;
+  /* The container that holds all info widgets */
+  #information-widgets,
+  .information-widgets,
+  [class*="information"] {
+    max-width: 50% !important;   /* same value you used for the main content */
     margin-left: auto !important;
     margin-right: auto !important;
+    width: 100% !important;
+  }
+
+  /* Make the two individual cards share the space equally and fill it */
+  #information-widgets > div,
+  .information-widgets > div {
+    flex: 1 1 0% !important;
+    max-width: none !important;
   }
 }
