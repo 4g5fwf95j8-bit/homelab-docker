@@ -22,7 +22,7 @@ layout:
   Main Container:
     header: false
     style: row
-    columns: 4
+    columns: 3
 
     Media:
       header: true
@@ -38,6 +38,8 @@ layout:
 
     Apps:
       header: true
+      style: row
+      columns: 2
 
 #    Host Nodes:
 #      header: true
