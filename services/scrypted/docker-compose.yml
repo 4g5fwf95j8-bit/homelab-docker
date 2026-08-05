@@ -1,0 +1,33 @@
+name: "scrypted"
+
+services:
+  scrypted:
+    image: ghcr.io/koush/scrypted:latest
+    container_name: scrypted
+    restart: unless-stopped
+
+    # HomeKit relies on mDNS/Bonjour for pairing and discovery, which does not
+    # traverse Docker's bridge networking. This is the one service in the repo
+    # that intentionally sits off homelab-media-network and talks to the LAN
+    # directly. Because of that, ports: is omitted (Compose ignores it in host
+    # mode anyway) — the container binds straight to the host's ports:
+    #   10443/tcp -> Scrypted management UI (HTTPS)
+    #   11080/tcp -> Scrypted management UI (HTTP)
+    network_mode: host
+
+    environment:
+      TZ: ${TZ}
+
+    volumes:
+      - /opt/scrypted/volume:/server/volume
+
+    # Optional: uncomment to enable Intel Quick Sync hardware transcoding for
+    # camera streams (reduces CPU load with several cameras active at once).
+    # devices:
+    #   - /dev/dri:/dev/dri
+
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1024M

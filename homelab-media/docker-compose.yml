@@ -9,6 +9,7 @@ include:
   - path: ../services/public/docker-compose.yml
   - path: ../services/dockerproxy/docker-compose.yml
   - path: ../services/glances/docker-compose.yml
+  - path: ../services/scrypted/docker-compose.yml
  
 networks:
   default:

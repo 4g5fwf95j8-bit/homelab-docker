@@ -101,6 +101,17 @@
             container: grafana
             showStats: true
             siteMonitor: https://grafana.gsofianos.duckdns.org
+        - Scrypted:
+            icon: scrypted
+            # Direct LAN link, not routed through Caddy/DuckDNS — same reasoning
+            # as the Ollama entry above: this is a camera admin panel, so it
+            # stays off the public subdomains. network_mode: host means it's
+            # reachable straight on the media host's own IP.
+            href: http://192.168.68.130:11080
+            description: Camera Bridge (HomeKit)
+            server: homelab-media
+            container: scrypted
+            showStats: true
 
     - Host Nodes:
         - Media Server:

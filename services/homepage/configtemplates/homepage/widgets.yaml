@@ -2,7 +2,7 @@
     text_size: xl
     text: Sofianos Server Dashboard
     logo: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/shoko-server.png
-    
+
 - glances:
     label: "Media Server"
     url: http://192.168.68.130:61208
