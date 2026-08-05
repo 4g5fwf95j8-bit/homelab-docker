@@ -1,39 +1,57 @@
-/* ===== Main content width (body) ===== */
+/* ===== Shared width for everything ===== */
 @media (min-width: 1280px) {
   #page_container,
   .container,
-  #layout-groups {
-    max-width: 50% !important;
+  #layout-groups,
+  #bookmarks {
+    max-width: 75% !important;
     margin-left: auto !important;
     margin-right: auto !important;
     width: 100% !important;
   }
-}
 
-/* ===== Top information widgets (Media Server + AI Server) ===== */
-@media (min-width: 1280px) {
-  /* Target the container that holds the glances/resources widgets */
-  #information-widgets,
-  .information-widgets,
-  div[class*="information-widgets"],
-  .flex.flex-wrap.justify-center:has(.widget),
-  .flex.flex-wrap.justify-center {
-    max-width: 50% !important;          /* EXACT same width as the body */
+  /* Top strip */
+  #information-widgets {
+    max-width: 75% !important;
     margin-left: auto !important;
     margin-right: auto !important;
     width: 100% !important;
     display: flex !important;
-    flex-wrap: nowrap !important;       /* keep them side-by-side */
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Left side = stacked title + two server cards */
+  #widgets-wrap {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    max-width: none !important;
+    display: flex !important;
+    flex-direction: column !important;
     gap: 0.75rem !important;
   }
 
-  /* Force each of the two server cards to expand and share the space equally */
-  #information-widgets > div,
-  .information-widgets > div,
-  .flex.flex-wrap.justify-center > div {
-    flex: 1 1 0% !important;
-    max-width: none !important;
+  /* Title + both server cards stay full width of the left column */
+  #widgets-wrap > .information-widget-greeting,
+  #widgets-wrap > a.information-widget-glances,
+  #widgets-wrap > a.information-widget-resources {
     width: 100% !important;
-    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* Right side = logo */
+  #information-widgets-right,
+  .information-widget-logo,
+  #widgets-wrap + div {
+    flex: 0 0 auto !important;
+    align-self: center !important;   /* vertically center the logo */
+  }
+
+  /* Optional: control logo size */
+  .information-widget-logo img,
+  .information-widget-logo svg {
+    height: 80px !important;         /* adjust to taste */
+    width: auto !important;
   }
 }

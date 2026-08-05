@@ -1,7 +1,6 @@
 - greeting:
     text_size: xl
     text: Sofianos Server Dashboard
-    logo: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/shoko-server.png
 
 - glances:
     label: "Media Server"
@@ -29,3 +28,6 @@
     uptime: true
     disk:
       - /hostfs
+
+- logo:
+    icon: fab-hubspot
