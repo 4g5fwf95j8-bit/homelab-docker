@@ -51,7 +51,7 @@
     width: 100% !important;
   }
 
-  /* Logo → spans all three rows on the right */
+    /* Logo → spans all three rows on the right */
   #widgets-wrap > .information-widget-logo {
     grid-column: 2 !important;
     grid-row: 1 / -1 !important;          /* span the full height */
@@ -59,11 +59,27 @@
     justify-self: end !important;
   }
 
+  /* ===== Remove the box around the logo ===== */
+  .information-widget-logo,
+  .information-widget-logo > div,
+  .information-widget-logo a {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
   /* Size the logo */
   .information-widget-logo img,
-  .information-widget-logo svg {
-    height: 140px !important;             /* adjust to taste */
+  .information-widget-logo svg,
+  .information-widget-logo svg path {
+    height: 240px !important;             /* adjust to taste */
     width: auto !important;
-    max-width: 180px !important;
+    max-width: 300px !important;
+    filter: brightness(0) invert(1) !important;
   }
+
 }
