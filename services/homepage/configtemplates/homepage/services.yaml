@@ -109,8 +109,6 @@
                     container: grafana
                     showStats: false
                     siteMonitor: https://grafana.gsofianos.duckdns.org
-    - Filler2:
-        content: ""
 #        - Scrypted:
 #            icon: scrypted
 #            # Direct LAN link, not routed through Caddy/DuckDNS — same reasoning
