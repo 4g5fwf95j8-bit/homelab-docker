@@ -26,8 +26,8 @@ layout:
 
     Filler1:
       header: false
-      style: row
-      columns: 1
+      style: markdown
+      content: ""
 
     Media:
       header: true
@@ -55,7 +55,7 @@ layout:
 
     Filler2:
       header: false
-      style: row
-      columns: 1
+      style: markdown
+      content: ""
 #    Host Nodes:
 #      header: true
