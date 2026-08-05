@@ -7,11 +7,14 @@
   }
 }
 
-#information-widgets,
-  .information-widgets,
-  [class*="information"] {
-    max-width: 50% !important;   /* same value you used for the main content */
+.flex.flex-wrap.justify-center,          /* common Tailwind wrapper */
+  #widgets,
+  [id*="widget"] {
+    max-width: 50% !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    width: 100% !important;
-}
+  }
+
+.flex.flex-wrap.justify-center > div {
+    flex: 1 1 45% !important;   /* two equal cards with a little gap */
+  }
