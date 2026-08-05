@@ -22,7 +22,10 @@ layout:
   Main Container:
     header: false
     style: row
-    columns: 3
+    columns: 4
+
+    Filler1:
+      header: false
 
     Media:
       header: true
@@ -33,17 +36,22 @@ layout:
         style: row
         columns: 2
 
-    AI Tools:
-      header: true
-
-    Apps Container:
+    Tools Container:
       header: false
-      style: row
-      
-      Apps:
-        header: true
-        style: row
-        columns: 2
 
+      AI Tools:
+        header: true
+
+      Apps Container:
+        header: false
+        style: row
+
+        Apps:
+          header: true
+          style: row
+          columns: 2
+
+    Filler2:
+      header: false
 #    Host Nodes:
 #      header: true
