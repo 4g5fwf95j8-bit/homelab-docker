@@ -3,6 +3,8 @@ name: homelab-ai
 include:
   - path: ../services/ai/ollama/docker-compose.yml
   - path: ../services/ai/open-webui/docker-compose.yml
+  - path: ../services/ai/kokoro-tts/docker-compose.yml
+  - path: ../services/ai/whisper-stt/docker-compose.yml
   - path: ../services/dockerproxy/docker-compose.yml
   - path: ../services/glances/docker-compose.yml
   - path: ../services/receipt-tracker/docker-compose.yml
