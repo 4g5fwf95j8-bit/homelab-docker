@@ -36,7 +36,7 @@ else
 fi
 
 : "${DIR_PHOTOS:?DIR_PHOTOS must be set in .env}"
-: "${MAC_BACKUP_HOST:?MAC_BACKUP_HOST must be set in .env (Mac's LAN IP or hostname)}"
+: "${MAC_BACKUP_HOST:?MAC_BACKUP_HOST must be set in .env - LAN IP or hostname for the Mac}"
 : "${MAC_BACKUP_USER:?MAC_BACKUP_USER must be set in .env (Mac username, e.g. georgesofianos)}"
 : "${MAC_BACKUP_PATH:?MAC_BACKUP_PATH must be set in .env (e.g. /Volumes/5TB_Server_Backup)}"
 
