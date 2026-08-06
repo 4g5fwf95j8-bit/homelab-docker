@@ -10,8 +10,17 @@
 # Runs via cron at 4:00 AM (installed by setup-media.sh).
 # Requires passwordless SSH key access from this host to the Mac —
 # see the repo README for one-time setup steps.
+#
+# Usage: ./backup.sh [--dry-run]
+#   --dry-run   Test connectivity and preview what would be copied,
+#               without actually transferring or deleting anything.
 
 set -euo pipefail
+
+DRY_RUN=false
+if [[ "${1:-}" == "--dry-run" ]]; then
+    DRY_RUN=true
+fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
@@ -63,32 +72,44 @@ if ! ssh "${SSH_OPTS[@]}" "${REMOTE}" \
     exit 1
 fi
 
+RSYNC_OPTS=(-ahl --ignore-existing --exclude 'thumbs/')
+if [ "${DRY_RUN}" = true ]; then
+    RSYNC_OPTS+=(--dry-run -v)
+    log "DRY RUN: previewing sync, no files will actually be copied"
+fi
+
 log "Syncing new files from ${DIR_PHOTOS} to ${REMOTE}:${MAC_BACKUP_PATH}/immich/"
 
-rsync -ahl \
-    --ignore-existing \
-    --exclude 'thumbs/' \
+rsync "${RSYNC_OPTS[@]}" \
     -e "ssh -i ${SSH_KEY} -o ConnectTimeout=10" \
-    "${DIR_PHOTOS}/" "${REMOTE}:${MAC_BACKUP_PATH}/immich/" >> "${LOG_FILE}" 2>&1
+    "${DIR_PHOTOS}/" "${REMOTE}:${MAC_BACKUP_PATH}/immich/" 2>&1 | tee -a "${LOG_FILE}"
 
 log "Photo sync complete."
 
 if [ "${INCLUDE_DB}" = "true" ]; then
-    log "Dumping Immich database..."
-    DB_DUMP="/tmp/immich-db-$(date +%Y%m%d-%H%M).sql.gz"
-    docker exec immich_postgres pg_dumpall --clean -U "${IMMICH_DB_USERNAME}" | gzip > "${DB_DUMP}"
+    if [ "${DRY_RUN}" = true ]; then
+        log "DRY RUN: would dump immich_postgres via pg_dumpall and copy it to ${REMOTE}:${MAC_BACKUP_PATH}/immich-db/ (skipped)"
+    else
+        log "Dumping Immich database..."
+        DB_DUMP="/tmp/immich-db-$(date +%Y%m%d-%H%M).sql.gz"
+        docker exec immich_postgres pg_dumpall --clean -U "${IMMICH_DB_USERNAME}" | gzip > "${DB_DUMP}"
 
-    scp -i "${SSH_KEY}" -o ConnectTimeout=10 "${DB_DUMP}" \
-        "${REMOTE}:${MAC_BACKUP_PATH}/immich-db/" >> "${LOG_FILE}" 2>&1
+        scp -i "${SSH_KEY}" -o ConnectTimeout=10 "${DB_DUMP}" \
+            "${REMOTE}:${MAC_BACKUP_PATH}/immich-db/" >> "${LOG_FILE}" 2>&1
 
-    rm -f "${DB_DUMP}"
+        rm -f "${DB_DUMP}"
 
-    # Keep the Mac side from filling up with dumps forever
-    ssh "${SSH_OPTS[@]}" "${REMOTE}" \
-        "find '${MAC_BACKUP_PATH}/immich-db' -name 'immich-db-*.sql.gz' -mtime +${DB_RETENTION_DAYS} -delete" \
-        >> "${LOG_FILE}" 2>&1 || true
+        # Keep the Mac side from filling up with dumps forever
+        ssh "${SSH_OPTS[@]}" "${REMOTE}" \
+            "find '${MAC_BACKUP_PATH}/immich-db' -name 'immich-db-*.sql.gz' -mtime +${DB_RETENTION_DAYS} -delete" \
+            >> "${LOG_FILE}" 2>&1 || true
 
-    log "Database dump complete (keeping last ${DB_RETENTION_DAYS} days)."
+        log "Database dump complete (keeping last ${DB_RETENTION_DAYS} days)."
+    fi
 fi
 
-log "=== Immich backup finished successfully ==="
+if [ "${DRY_RUN}" = true ]; then
+    log "=== Dry run finished — no files were actually copied ==="
+else
+    log "=== Immich backup finished successfully ==="
+fi
