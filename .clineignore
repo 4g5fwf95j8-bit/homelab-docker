@@ -1,6 +1,0 @@
-# Exclude secrets from Cline context
-.env
-.env.*
-*.pem
-*.key
-credentials.json
