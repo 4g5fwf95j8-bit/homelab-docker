@@ -323,6 +323,15 @@ docker exec -it ollama bash
 # Pull a new Ollama model
 docker exec -it ollama ollama pull qwen2.5-coder:7b
 ```
+---
+
+# Making Updates to .env File
+- Make them in the VS Code version
+- run this to copy it to the server:
+
+```
+syncenv
+```
 
 ---
 

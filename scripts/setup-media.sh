@@ -163,6 +163,24 @@ docker compose up -d --remove-orphans
 echo "Cleaning up old Docker images..."
 docker image prune -f
 
+# =============================================
+# Nightly Immich backup cron job
+# =============================================
+echo "Setting up nightly Immich backup cron job..."
+
+BACKUP_USER="${SUDO_USER:-$USER}"
+chmod +x "${SCRIPT_DIR}/backup.sh"
+mkdir -p "${ROOT_DIR}/backups/logs"
+chown -R "${BACKUP_USER}:${BACKUP_USER}" "${ROOT_DIR}/backups" 2>/dev/null || true
+
+CRON_CMD="0 4 * * * ${SCRIPT_DIR}/backup.sh >> ${ROOT_DIR}/backups/logs/cron.log 2>&1"
+
+# Idempotent: drop any existing entry for this script before re-adding,
+# so re-running setup never produces duplicate cron lines.
+( sudo -u "${BACKUP_USER}" crontab -l 2>/dev/null | grep -vF "scripts/backup.sh" ; echo "${CRON_CMD}" ) | sudo -u "${BACKUP_USER}" crontab -
+
+echo "Cron job installed for user '${BACKUP_USER}': nightly Immich backup at 4:00 AM"
+
 echo "=== Laptop 1 Setup Complete! ==="
 echo "Tailscale IP: $(tailscale ip -4 2>/dev/null || echo 'Not connected')"
 docker ps
