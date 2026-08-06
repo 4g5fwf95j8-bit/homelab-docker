@@ -12,6 +12,18 @@ set -e
 
 echo "=== Starting Laptop 2 (AI) Setup ==="
 
+# Wait for any other process (e.g. unattended-upgrades) to release the dpkg lock
+# before we try to apt/dpkg anything ourselves. Common on freshly booted/provisioned machines.
+wait_for_dpkg_lock() {
+    if sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; then
+        echo "Waiting for other package managers (e.g. unattended-upgrades) to finish..."
+        while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+            sleep 5
+        done
+        echo "dpkg lock released, continuing."
+    fi
+}
+
 # Load .env
 if [ -f "${ROOT_DIR}/.env" ]; then
     set -a
@@ -30,9 +42,11 @@ bash "${SCRIPT_DIR}/auth.sh"
 
 # System & Docker
 echo "Updating system..."
+wait_for_dpkg_lock
 apt update && apt upgrade -y
 
 if ! command -v docker &> /dev/null; then
+    wait_for_dpkg_lock
     curl -fsSL https://get.docker.com | sh
     usermod -aG docker "${SUDO_USER:-$USER}"
 fi
