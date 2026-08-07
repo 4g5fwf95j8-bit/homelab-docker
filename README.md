@@ -4,7 +4,7 @@ Two-server homelab built entirely with Infrastructure as Code.
 
 | Server | Role | Hostname |
 |--------|------|----------|
-| **Media Server** | Media, photos, dashboard, reverse proxy | `homelab-media` |
+| **Media Server** | Media, photos, music, dashboard, reverse proxy | `homelab-media` |
 | **AI Server** | Local LLMs, metrics, receipt tracking | `homelab-ai` |
 
 Everything is defined in Git. The only manual steps are cloning the repo and running the provided scripts.
@@ -20,6 +20,7 @@ Internet
 Caddy (DuckDNS + TLS)  ←── Media Server
    │
    ├── Jellyfin
+   ├── Navidrome
    ├── Immich
    ├── Homepage
    ├── PriceBuddy / PriceCheck
@@ -42,7 +43,7 @@ Nightly backup (04:00)
 - **Caddy** handles public HTTPS reverse proxy via DuckDNS.
 - **Tailscale** provides secure private networking + SSH between the two machines and your devices.
 - **Immich photos + database** are backed up nightly to a Mac external drive over SSH.
-- All configuration lives in this repository. Persistent data (media libraries, Immich photos, Jellyfin config, etc.) lives on the host filesystem / external drive.
+- All configuration lives in this repository. Persistent data (media libraries, Immich photos, Jellyfin config, Navidrome data, etc.) lives on the host filesystem / external drive.
 
 ---
 
@@ -53,6 +54,7 @@ Nightly backup (04:00)
 | Service | Purpose |
 |---------|---------|
 | **Jellyfin** | Media server (movies, TV, music) |
+| **Navidrome** | Music streaming server (Subsonic API – used with Amperfy on iOS) |
 | **Immich** | Self-hosted Google Photos alternative |
 | **Homepage** | Dashboard |
 | **Caddy + DuckDNS** | Reverse proxy + automatic TLS certificates |
@@ -89,6 +91,7 @@ Nightly backup (04:00)
 │   ├── homepage/
 │   ├── immich/
 │   ├── jellyfin/
+│   ├── navidrone/          # Navidrome (music streaming)
 │   ├── pricebuddy/
 │   ├── pricecheck/
 │   ├── public/             # Caddy + DuckDNS
@@ -142,13 +145,18 @@ TAILSCALE_AUTHKEY=tskey-auth-xxxxx
 # DuckDNS / Caddy
 DOMAIN=gsofianos.duckdns.org
 DUCKDNS_TOKEN=xxxxx
-DUCKDNS_SUBDOMAINLIST=jellyfin,immich,homepage,ai,grafana
+DUCKDNS_SUBDOMAINLIST=jellyfin,immich,homepage,ai,grafana,pricebuddy,pricecheck,navidrome,receipts
 EMAIL_ADMIN=you@example.com
 
 # Ports (examples)
 PORT_CADDY_HTTP=80
 PORT_CADDY_HTTPS=443
 PORT_CADDY_ADMIN=2019
+PORT_NAVIDROME=4533
+
+# Paths
+MEDIADIR=/mnt/seagate_storage/jellyfin
+NAVIDROME_DATA_DIR=/opt/navidrome/data
 
 # Immich paths
 DIR_PHOTOS=/mnt/seagate_storage/immich
@@ -194,11 +202,12 @@ sudo ./scripts/setup-media.sh
 ```
 
 The script will:
+
 - Sync the latest code from GitHub
 - Install Docker (if missing)
 - Install & authenticate Tailscale
 - Detect and mount the Seagate drive
-- Create required directories
+- Create required directories (including Navidrome data dir when configured)
 - Restore Immich / Jellyfin backups if present
 - Symlink `.env` into every service
 - Pull, build and start the entire Media stack
@@ -305,6 +314,7 @@ docker compose logs -f
 
 # Single service
 docker compose logs -f jellyfin
+docker compose logs -f navidrome
 
 # Backup log
 tail -f /opt/docker/homelab-docker/backups/logs/immich-backup.log
@@ -397,6 +407,7 @@ docker system df
 
 # Restart a single container
 docker restart jellyfin
+docker restart navidrome
 
 # Enter a container
 docker exec -it ollama bash
@@ -407,9 +418,11 @@ docker exec -it ollama ollama pull qwen2.5-coder:7b
 # Manual Immich backup
 ./scripts/backup.sh
 ```
+
 ---
 
-# Making Updates to .env File
+## Making Updates to .env File
+
 - Make them in the VS Code version
 - run this to copy it to the server:
 
@@ -432,6 +445,7 @@ syncenv
 | Git pull fails under sudo | The setup scripts handle SSH key selection automatically |
 | Immich backup fails | Check `backups/logs/immich-backup.log`. Common causes: Mac asleep, drive unplugged, or SSH key not authorised |
 | Backup cron missing | Re-run `sudo ./scripts/setup-media.sh` (it re-installs the cron job idempotently) |
+| Navidrome not scanning music | Confirm `${MEDIADIR}/music` exists and is readable by `PUID`/`PGID`; check `docker compose logs -f navidrome` |
 
 ---
 
