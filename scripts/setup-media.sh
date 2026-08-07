@@ -185,43 +185,27 @@ docker image prune -f
 # =============================================
 echo "Setting up nightly Immich backup cron job..."
 
-# Prefer the user who invoked sudo; fall back to current user.
-BACKUP_USER="${SUDO_USER:-$USER}"
-if [ "${BACKUP_USER}" = "root" ]; then
-    echo "WARNING: BACKUP_USER resolved to root. Install cron as your normal login user instead." >&2
-fi
-
 chmod +x "${SCRIPT_DIR}/backup.sh"
 mkdir -p "${ROOT_DIR}/backups/logs"
-chown -R "${BACKUP_USER}:${BACKUP_USER}" "${ROOT_DIR}/backups" 2>/dev/null || true
+# Keep logs owned by the login user so they’re easy to read without sudo
+chown -R "${SUDO_USER:-$USER}:${SUDO_USER:-$USER}" "${ROOT_DIR}/backups" 2>/dev/null || true
 
 CRON_CMD="0 4 * * * ${SCRIPT_DIR}/backup.sh >> ${ROOT_DIR}/backups/logs/cron.log 2>&1"
 
-# Install entirely as BACKUP_USER so temp files are readable by that user
-if [ "$(id -u)" -eq 0 ]; then
-    sudo -u "${BACKUP_USER}" bash -c "
-        TMP_CRON=\$(mktemp)
-        crontab -l 2>/dev/null | grep -vF 'scripts/backup.sh' > \"\$TMP_CRON\" || true
-        echo '${CRON_CMD}' >> \"\$TMP_CRON\"
-        crontab \"\$TMP_CRON\"
-        rm -f \"\$TMP_CRON\"
-    "
-    INSTALLED="$(sudo -u "${BACKUP_USER}" crontab -l 2>/dev/null | grep -F "scripts/backup.sh" || true)"
-else
-    TMP_CRON="$(mktemp)"
-    crontab -l 2>/dev/null | grep -vF "scripts/backup.sh" > "${TMP_CRON}" || true
-    echo "${CRON_CMD}" >> "${TMP_CRON}"
-    crontab "${TMP_CRON}"
-    rm -f "${TMP_CRON}"
-    INSTALLED="$(crontab -l 2>/dev/null | grep -F "scripts/backup.sh" || true)"
-fi
+# Install into the current account’s crontab (root when using sudo ./scripts/setup-media.sh).
+# No temp files — avoids /tmp permission issues under sudo -u.
+EXISTING="$(crontab -l 2>/dev/null | grep -vF "scripts/backup.sh" || true)"
+printf '%s\n' "${EXISTING}" "${CRON_CMD}" | crontab -
 
+INSTALLED="$(crontab -l 2>/dev/null | grep -F "scripts/backup.sh" || true)"
 if [ -n "${INSTALLED}" ]; then
-    echo "Cron job installed for user '${BACKUP_USER}':"
+    echo "Cron job installed:"
     echo "  ${INSTALLED}"
+    echo "  (view with: sudo crontab -l)"
 else
-    echo "ERROR: Failed to install cron job for user '${BACKUP_USER}'." >&2
-    echo "Check with: sudo -u ${BACKUP_USER} crontab -l" >&2
+    echo "ERROR: Failed to install cron job." >&2
+    echo "Debug: crontab -l" >&2
+    crontab -l 2>&1 || true
     exit 1
 fi
 
