@@ -1,11 +1,15 @@
 #!/bin/bash
 # =============================================
 # Immich Photo Backup -> Mac (5TB_Server_Backup)
+# + local Jellyfin config snapshot
 # =============================================
 # Pushes new files from the media server's Immich data directory to the
 # external drive on the Mac over SSH/rsync. New files only — existing
 # files at the destination are never overwritten or deleted, so this is
 # safe to run nightly without risk of clobbering the backup.
+#
+# Also writes a dated tarball of Jellyfin config (not media) under
+# backups/jellyfin/ on this host, kept for 14 days.
 #
 # Runs via cron at 4:00 AM (installed by setup-media.sh).
 # Requires passwordless SSH key access from this host to the Mac —
@@ -55,7 +59,27 @@ log() {
 SSH_OPTS=(-i "${SSH_KEY}" -o BatchMode=yes -o ConnectTimeout=10)
 REMOTE="${MAC_BACKUP_USER}@${MAC_BACKUP_HOST}"
 
-log "=== Starting Immich backup ==="
+log "=== Starting backup ==="
+
+# --- Jellyfin config backup (config only, not media) ---
+# Runs locally even if the Mac is unreachable.
+JELLYFIN_CONFIG_DIR="/opt/jellyfin/config"
+JELLYFIN_BACKUP_DIR="${ROOT_DIR}/backups/jellyfin"
+mkdir -p "${JELLYFIN_BACKUP_DIR}"
+
+if [ -d "${JELLYFIN_CONFIG_DIR}" ]; then
+    STAMP=$(date +%Y%m%d)
+    if [ "${DRY_RUN}" = true ]; then
+        log "DRY RUN: would archive ${JELLYFIN_CONFIG_DIR} -> ${JELLYFIN_BACKUP_DIR}/jellyfin-config-${STAMP}.tar.gz"
+    else
+        tar -czf "${JELLYFIN_BACKUP_DIR}/jellyfin-config-${STAMP}.tar.gz" -C /opt/jellyfin config
+        # keep last 14 days of local config backups
+        find "${JELLYFIN_BACKUP_DIR}" -name 'jellyfin-config-*.tar.gz' -mtime +14 -delete
+        log "Jellyfin config backup written to ${JELLYFIN_BACKUP_DIR}/jellyfin-config-${STAMP}.tar.gz"
+    fi
+else
+    log "NOTE: ${JELLYFIN_CONFIG_DIR} not found — skipping Jellyfin config backup"
+fi
 
 if [ ! -d "${DIR_PHOTOS}" ]; then
     log "ERROR: DIR_PHOTOS (${DIR_PHOTOS}) not found on this host. Is the Seagate drive mounted? Aborting."
@@ -68,7 +92,7 @@ fi
 if ! ssh "${SSH_OPTS[@]}" "${REMOTE}" \
         "mkdir -p '${MAC_BACKUP_PATH}/immich' '${MAC_BACKUP_PATH}/immich-db' && test -d '${MAC_BACKUP_PATH}'" \
         2>>"${LOG_FILE}"; then
-    log "ERROR: Could not reach ${MAC_BACKUP_HOST}, or ${MAC_BACKUP_PATH} doesn't exist there. Is the Mac awake and the drive connected? Skipping tonight's backup."
+    log "ERROR: Could not reach ${MAC_BACKUP_HOST}, or ${MAC_BACKUP_PATH} doesn't exist there. Is the Mac awake and the drive connected? Skipping tonight's Immich backup."
     exit 1
 fi
 
@@ -111,5 +135,6 @@ fi
 if [ "${DRY_RUN}" = true ]; then
     log "=== Dry run finished — no files were actually copied ==="
 else
-    log "=== Immich backup finished successfully ==="
+    log "=== Backup finished successfully ==="
 fi
+```
