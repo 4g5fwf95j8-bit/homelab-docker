@@ -197,15 +197,18 @@ chown -R "${BACKUP_USER}:${BACKUP_USER}" "${ROOT_DIR}/backups" 2>/dev/null || tr
 
 CRON_CMD="0 4 * * * ${SCRIPT_DIR}/backup.sh >> ${ROOT_DIR}/backups/logs/cron.log 2>&1"
 
-# Build a clean crontab in a temp file (more reliable than piping to crontab -)
-TMP_CRON="$(mktemp)"
+# Install entirely as BACKUP_USER so temp files are readable by that user
 if [ "$(id -u)" -eq 0 ]; then
-    sudo -u "${BACKUP_USER}" crontab -l 2>/dev/null | grep -vF "scripts/backup.sh" > "${TMP_CRON}" || true
-    echo "${CRON_CMD}" >> "${TMP_CRON}"
-    sudo -u "${BACKUP_USER}" crontab "${TMP_CRON}"
-    rm -f "${TMP_CRON}"
+    sudo -u "${BACKUP_USER}" bash -c "
+        TMP_CRON=\$(mktemp)
+        crontab -l 2>/dev/null | grep -vF 'scripts/backup.sh' > \"\$TMP_CRON\" || true
+        echo '${CRON_CMD}' >> \"\$TMP_CRON\"
+        crontab \"\$TMP_CRON\"
+        rm -f \"\$TMP_CRON\"
+    "
     INSTALLED="$(sudo -u "${BACKUP_USER}" crontab -l 2>/dev/null | grep -F "scripts/backup.sh" || true)"
 else
+    TMP_CRON="$(mktemp)"
     crontab -l 2>/dev/null | grep -vF "scripts/backup.sh" > "${TMP_CRON}" || true
     echo "${CRON_CMD}" >> "${TMP_CRON}"
     crontab "${TMP_CRON}"
