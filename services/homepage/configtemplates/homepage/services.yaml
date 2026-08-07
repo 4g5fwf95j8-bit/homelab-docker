@@ -18,6 +18,14 @@
                   enableUser: true
                   showEpisodeNumber: true
                   expandOneStreamToTwoRows: false
+            - Navidrome:
+                icon: navidrome.png
+                href: https://navidrome.gsofianos.duckdns.org
+                description: Music Streaming (Amperfy)
+                server: homelab-media
+                container: navidrome
+                showStats: true
+                siteMonitor: https://navidrome.gsofianos.duckdns.org
             - Immich:
                 icon: immich
                 href: https://immich.gsofianos.duckdns.org

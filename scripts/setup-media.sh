@@ -142,14 +142,31 @@ fi
 mkdir -p /mnt/seagate_storage/{jellyfin,immich}
 
 # --- Local (ext4) config folders — real chown works fine here ---
-mkdir -p /srv/{homepage,pricebuddy,caddy} /opt/jellyfin/{config,cache} /opt/immich /opt/scrypted/volume
+mkdir -p \
+    /srv/{homepage,pricebuddy,caddy} \
+    /opt/jellyfin/{config,cache} \
+    /opt/immich \
+    /opt/scrypted/volume \
+    "${NAVIDROME_DATA_DIR:-/opt/navidrome/data}"
 
 # Sync Homepage configs from the Git repo to the live Docker directory
-# (Adjust the source path if your configs are stored somewhere else in your repo)
 rsync -a "${ROOT_DIR}/services/homepage/configtemplates/homepage/" /srv/homepage/
 
-chown -R "${PUID:-1000}:${PGID:-1000}" /srv /opt/jellyfin /opt/immich /opt/scrypted 2>/dev/null || true
+# Ownership (idempotent)
+chown -R "${PUID:-1000}:${PGID:-1000}" \
+    /srv \
+    /opt/jellyfin \
+    /opt/immich \
+    /opt/scrypted \
+    "${NAVIDROME_DATA_DIR:-/opt/navidrome/data}" \
+    2>/dev/null || true
+
 echo "Storage setup complete."
+
+# =============================================
+# Firewall (ufw)
+# =============================================
+bash "${SCRIPT_DIR}/setup-ufw.sh"
 
 # =============================================
 # Start services

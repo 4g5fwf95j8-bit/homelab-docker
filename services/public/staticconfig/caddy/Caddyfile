@@ -42,3 +42,8 @@ receipts.gsofianos.duckdns.org {
 grafana.gsofianos.duckdns.org {
     reverse_proxy 100.71.98.85:3001
 }
+
+# Navidrome
+navidrome.gsofianos.duckdns.org {
+    reverse_proxy navidrome:4533
+}
