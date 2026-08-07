@@ -185,18 +185,42 @@ docker image prune -f
 # =============================================
 echo "Setting up nightly Immich backup cron job..."
 
+# Prefer the user who invoked sudo; fall back to current user.
 BACKUP_USER="${SUDO_USER:-$USER}"
+if [ "${BACKUP_USER}" = "root" ]; then
+    echo "WARNING: BACKUP_USER resolved to root. Install cron as your normal login user instead." >&2
+fi
+
 chmod +x "${SCRIPT_DIR}/backup.sh"
 mkdir -p "${ROOT_DIR}/backups/logs"
 chown -R "${BACKUP_USER}:${BACKUP_USER}" "${ROOT_DIR}/backups" 2>/dev/null || true
 
 CRON_CMD="0 4 * * * ${SCRIPT_DIR}/backup.sh >> ${ROOT_DIR}/backups/logs/cron.log 2>&1"
 
-# Idempotent: drop any existing entry for this script before re-adding,
-# so re-running setup never produces duplicate cron lines.
-( sudo -u "${BACKUP_USER}" crontab -l 2>/dev/null | grep -vF "scripts/backup.sh" ; echo "${CRON_CMD}" ) | sudo -u "${BACKUP_USER}" crontab -
+# Build a clean crontab in a temp file (more reliable than piping to crontab -)
+TMP_CRON="$(mktemp)"
+if [ "$(id -u)" -eq 0 ]; then
+    sudo -u "${BACKUP_USER}" crontab -l 2>/dev/null | grep -vF "scripts/backup.sh" > "${TMP_CRON}" || true
+    echo "${CRON_CMD}" >> "${TMP_CRON}"
+    sudo -u "${BACKUP_USER}" crontab "${TMP_CRON}"
+    rm -f "${TMP_CRON}"
+    INSTALLED="$(sudo -u "${BACKUP_USER}" crontab -l 2>/dev/null | grep -F "scripts/backup.sh" || true)"
+else
+    crontab -l 2>/dev/null | grep -vF "scripts/backup.sh" > "${TMP_CRON}" || true
+    echo "${CRON_CMD}" >> "${TMP_CRON}"
+    crontab "${TMP_CRON}"
+    rm -f "${TMP_CRON}"
+    INSTALLED="$(crontab -l 2>/dev/null | grep -F "scripts/backup.sh" || true)"
+fi
 
-echo "Cron job installed for user '${BACKUP_USER}': nightly Immich backup at 4:00 AM"
+if [ -n "${INSTALLED}" ]; then
+    echo "Cron job installed for user '${BACKUP_USER}':"
+    echo "  ${INSTALLED}"
+else
+    echo "ERROR: Failed to install cron job for user '${BACKUP_USER}'." >&2
+    echo "Check with: sudo -u ${BACKUP_USER} crontab -l" >&2
+    exit 1
+fi
 
 echo "=== Laptop 1 Setup Complete! ==="
 echo "Tailscale IP: $(tailscale ip -4 2>/dev/null || echo 'Not connected')"
