@@ -20,7 +20,7 @@ services:
       - AUDIO_TTS_OPENAI_API_BASE_URL=http://kokoro-tts:8880/v1
       - AUDIO_TTS_OPENAI_API_KEY=not-needed
       - AUDIO_TTS_MODEL=kokoro
-      - AUDIO_TTS_VOICE=af_heart
+      - AUDIO_TTS_VOICE=af_bella(2)+af_sky(1) # Blended to give more personality
     extra_hosts:
       - "host.docker.internal:host-gateway"   # required on Linux for that hostname to resolve
     depends_on:

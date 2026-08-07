@@ -9,6 +9,7 @@ services:
       - WHISPER__COMPUTE_TYPE=int8   # cuts RAM use ~40% on CPU
       - WHISPER__INFERENCE_DEVICE=cpu
       - STT_MODEL_TTL=300            # unload after 5 min idle — same idea as OLLAMA_KEEP_ALIVE
+      - PRELOAD_MODELS=Systran/faster-whisper-small.en
     volumes:
       - whisper-cache:/home/ubuntu/.cache/huggingface/hub
 
