@@ -47,3 +47,7 @@ grafana.gsofianos.duckdns.org {
 navidrome.gsofianos.duckdns.org {
     reverse_proxy navidrome:4533
 }
+
+clue.gsofianos.duckdns.org {
+    reverse_proxy 127.0.0.1:8095
+}

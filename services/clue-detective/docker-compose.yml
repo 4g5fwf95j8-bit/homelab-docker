@@ -1,0 +1,7 @@
+services:
+  clue-detective:
+    build: .
+    container_name: clue-detective
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8095:80"

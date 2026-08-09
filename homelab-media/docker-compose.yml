@@ -10,6 +10,7 @@ include:
   - path: ../services/dockerproxy/docker-compose.yml
   - path: ../services/glances/docker-compose.yml
   - path: ../services/navidrome/docker-compose.yml
+  - path: ../services/clue-detective/docker-compose.yml
 #  - path: ../services/scrypted/docker-compose.yml # Offloading until better hardware
  
 networks:

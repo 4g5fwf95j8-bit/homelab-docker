@@ -11,7 +11,7 @@
 # Also writes a dated tarball of Jellyfin config (not media) under
 # backups/jellyfin/ on this host, kept for 14 days.
 #
-# Runs via cron at 4:00 AM (installed by setup-media.sh).
+# Runs via cron at 4:00 AM (installed by install-cron.sh / setup-media.sh).
 # Requires passwordless SSH key access from this host to the Mac —
 # see the repo README for one-time setup steps.
 #
@@ -56,7 +56,8 @@ log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "${LOG_FILE}"
 }
 
-SSH_OPTS=(-i "${SSH_KEY}" -o BatchMode=yes -o ConnectTimeout=10)
+# accept-new avoids hard failure when root's known_hosts is empty
+SSH_OPTS=(-i "${SSH_KEY}" -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new)
 REMOTE="${MAC_BACKUP_USER}@${MAC_BACKUP_HOST}"
 
 log "=== Starting backup ==="
@@ -73,7 +74,6 @@ if [ -d "${JELLYFIN_CONFIG_DIR}" ]; then
         log "DRY RUN: would archive ${JELLYFIN_CONFIG_DIR} -> ${JELLYFIN_BACKUP_DIR}/jellyfin-config-${STAMP}.tar.gz"
     else
         tar -czf "${JELLYFIN_BACKUP_DIR}/jellyfin-config-${STAMP}.tar.gz" -C /opt/jellyfin config
-        # keep last 14 days of local config backups
         find "${JELLYFIN_BACKUP_DIR}" -name 'jellyfin-config-*.tar.gz' -mtime +14 -delete
         log "Jellyfin config backup written to ${JELLYFIN_BACKUP_DIR}/jellyfin-config-${STAMP}.tar.gz"
     fi
@@ -86,9 +86,7 @@ if [ ! -d "${DIR_PHOTOS}" ]; then
     exit 1
 fi
 
-# Bail out cleanly (not a hang, not a false "success") if the Mac is
-# asleep, off the network, or the drive isn't connected. Also creates
-# the destination folders on first run.
+# Bail out cleanly if the Mac is asleep / offline / drive unplugged.
 if ! ssh "${SSH_OPTS[@]}" "${REMOTE}" \
         "mkdir -p '${MAC_BACKUP_PATH}/immich' '${MAC_BACKUP_PATH}/immich-db' && test -d '${MAC_BACKUP_PATH}'" \
         2>>"${LOG_FILE}"; then
@@ -105,7 +103,7 @@ fi
 log "Syncing new files from ${DIR_PHOTOS} to ${REMOTE}:${MAC_BACKUP_PATH}/immich/"
 
 rsync "${RSYNC_OPTS[@]}" \
-    -e "ssh -i ${SSH_KEY} -o ConnectTimeout=10" \
+    -e "ssh -i ${SSH_KEY} -o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new" \
     "${DIR_PHOTOS}/" "${REMOTE}:${MAC_BACKUP_PATH}/immich/" 2>&1 | tee -a "${LOG_FILE}"
 
 log "Photo sync complete."
@@ -118,12 +116,11 @@ if [ "${INCLUDE_DB}" = "true" ]; then
         DB_DUMP="/tmp/immich-db-$(date +%Y%m%d-%H%M).sql.gz"
         docker exec immich_postgres pg_dumpall --clean -U "${IMMICH_DB_USERNAME}" | gzip > "${DB_DUMP}"
 
-        scp -i "${SSH_KEY}" -o ConnectTimeout=10 "${DB_DUMP}" \
+        scp -i "${SSH_KEY}" -o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new "${DB_DUMP}" \
             "${REMOTE}:${MAC_BACKUP_PATH}/immich-db/" >> "${LOG_FILE}" 2>&1
 
         rm -f "${DB_DUMP}"
 
-        # Keep the Mac side from filling up with dumps forever
         ssh "${SSH_OPTS[@]}" "${REMOTE}" \
             "find '${MAC_BACKUP_PATH}/immich-db' -name 'immich-db-*.sql.gz' -mtime +${DB_RETENTION_DAYS} -delete" \
             >> "${LOG_FILE}" 2>&1 || true
@@ -137,4 +134,3 @@ if [ "${DRY_RUN}" = true ]; then
 else
     log "=== Backup finished successfully ==="
 fi
-```

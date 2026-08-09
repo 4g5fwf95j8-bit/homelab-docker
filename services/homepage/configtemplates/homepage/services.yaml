@@ -115,6 +115,14 @@
                     container: grafana
                     showStats: false
                     siteMonitor: https://grafana.gsofianos.duckdns.org
+                - Clue Detective:
+                    icon: https://img.icons8.com/?size=100&id=zjIxdDrBKB1J&format=png&color=000000
+                    href: https://clue.gsofianos.duckdns.org
+                    description: Clue Sheet
+                    server: homelab-media
+                    container: clue-detective
+                    showStats: false
+                    siteMonitor: https://grafana.gsofianos.duckdns.org
 #        - Scrypted:
 #            icon: scrypted
 #            # Direct LAN link, not routed through Caddy/DuckDNS — same reasoning
