@@ -6,7 +6,7 @@
 # Homepage
 homepage.gsofianos.duckdns.org {
     tls {
-        dns duckdns {$DUCKDNS_TOKEN}
+        dns duckdns {$DUCKDNS_API_TOKEN}
     }
     reverse_proxy homepage:3000
 }
@@ -14,7 +14,7 @@ homepage.gsofianos.duckdns.org {
 # Jellyfin
 jellyfin.gsofianos.duckdns.org {
     tls {
-        dns duckdns {$DUCKDNS_TOKEN}
+        dns duckdns {$DUCKDNS_API_TOKEN}
     }
     reverse_proxy jellyfin:8096
 }
@@ -22,7 +22,7 @@ jellyfin.gsofianos.duckdns.org {
 # Immich
 immich.gsofianos.duckdns.org {
     tls {
-        dns duckdns {$DUCKDNS_TOKEN}
+        dns duckdns {$DUCKDNS_API_TOKEN}
     }
     reverse_proxy immich_server:2283
 }
@@ -30,7 +30,7 @@ immich.gsofianos.duckdns.org {
 # PriceBuddy
 pricebuddy.gsofianos.duckdns.org {
     tls {
-        dns duckdns {$DUCKDNS_TOKEN}
+        dns duckdns {$DUCKDNS_API_TOKEN}
     }
     reverse_proxy pricebuddy:80
 }
@@ -38,7 +38,7 @@ pricebuddy.gsofianos.duckdns.org {
 # Pricecheck
 pricecheck.gsofianos.duckdns.org {
     tls {
-        dns duckdns {$DUCKDNS_TOKEN}
+        dns duckdns {$DUCKDNS_API_TOKEN}
     }
     reverse_proxy pricecheck:8000
 }
@@ -46,7 +46,7 @@ pricecheck.gsofianos.duckdns.org {
 # AI (Open WebUI on AI server)
 ai.gsofianos.duckdns.org {
     tls {
-        dns duckdns {$DUCKDNS_TOKEN}
+        dns duckdns {$DUCKDNS_API_TOKEN}
     }
     reverse_proxy 100.71.98.85:8080
 }
@@ -54,7 +54,7 @@ ai.gsofianos.duckdns.org {
 # Receipt Tracker
 receipts.gsofianos.duckdns.org {
     tls {
-        dns duckdns {$DUCKDNS_TOKEN}
+        dns duckdns {$DUCKDNS_API_TOKEN}
     }
     reverse_proxy 100.71.98.85:8001
 }
@@ -62,7 +62,7 @@ receipts.gsofianos.duckdns.org {
 # Grafana
 grafana.gsofianos.duckdns.org {
     tls {
-        dns duckdns {$DUCKDNS_TOKEN}
+        dns duckdns {$DUCKDNS_API_TOKEN}
     }
     reverse_proxy 100.71.98.85:3001
 }
@@ -70,7 +70,7 @@ grafana.gsofianos.duckdns.org {
 # Navidrome
 navidrome.gsofianos.duckdns.org {
     tls {
-        dns duckdns {$DUCKDNS_TOKEN}
+        dns duckdns {$DUCKDNS_API_TOKEN}
     }
     reverse_proxy navidrome:4533
 }
@@ -78,7 +78,7 @@ navidrome.gsofianos.duckdns.org {
 # Clue Detective
 clue.gsofianos.duckdns.org {
     tls {
-        dns duckdns {$DUCKDNS_TOKEN}
+        dns duckdns {$DUCKDNS_API_TOKEN}
     }
     reverse_proxy clue-detective:8095
 }
