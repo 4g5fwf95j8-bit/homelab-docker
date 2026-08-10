@@ -49,5 +49,5 @@ navidrome.gsofianos.duckdns.org {
 }
 
 clue.gsofianos.duckdns.org {
-    reverse_proxy 127.0.0.1:8095
+    reverse_proxy clue-detective:8095
 }
