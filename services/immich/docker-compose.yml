@@ -22,7 +22,7 @@ services:
         restart: true
 
     ports:
-      - 127.0.0.1:${PORT_IMMICH}:2283
+      - ${PORT_IMMICH}:2283
 
     extends:
       file: staticconfig/immich-server/hwaccel.transcoding.yml

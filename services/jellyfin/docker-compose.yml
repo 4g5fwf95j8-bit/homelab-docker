@@ -8,8 +8,8 @@ services:
     restart: unless-stopped
     
     ports:
-      - 127.0.0.1:${PORT_HTPC_HTTP}:8096
-      - 127.0.0.1:${PORT_HTPC_HTTPS}:8920
+      - ${PORT_HTPC_HTTP}:8096
+      - ${PORT_HTPC_HTTPS}:8920
 
     environment:
       TZ: ${TZ}

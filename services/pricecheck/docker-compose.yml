@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
  
     ports:
-      - 127.0.0.1:${PORT_PRICECHECK}:8000
+      - ${PORT_PRICECHECK}:8000
  
     environment:
       # Same box as pricebuddy (homelab-media), so this is a direct

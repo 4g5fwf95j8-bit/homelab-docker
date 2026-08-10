@@ -6,7 +6,7 @@ services:
     container_name: homepage
 
     ports:
-      - 127.0.0.1:${PORT_DASH_HTTP}:3000
+      - ${PORT_DASH_HTTP}:3000
 
     environment:
       PUID: ${PUID}

@@ -10,7 +10,7 @@ services:
         condition: service_started
 
     ports:
-      - 127.0.0.1:${PORT_PRICEBUDDY}:80
+      - ${PORT_PRICEBUDDY}:80
 
     environment:
       PUID: ${PUID}
