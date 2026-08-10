@@ -80,5 +80,5 @@ clue.gsofianos.duckdns.org {
     tls {
         dns duckdns {$DUCKDNS_API_TOKEN}
     }
-    reverse_proxy clue-detective:8095
+    reverse_proxy clue-detective:80
 }
