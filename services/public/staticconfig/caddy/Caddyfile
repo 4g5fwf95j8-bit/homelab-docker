@@ -5,49 +5,80 @@
 
 # Homepage
 homepage.gsofianos.duckdns.org {
+    tls {
+        dns duckdns {$DUCKDNS_TOKEN}
+    }
     reverse_proxy homepage:3000
 }
 
 # Jellyfin
 jellyfin.gsofianos.duckdns.org {
+    tls {
+        dns duckdns {$DUCKDNS_TOKEN}
+    }
     reverse_proxy jellyfin:8096
 }
 
 # Immich
 immich.gsofianos.duckdns.org {
+    tls {
+        dns duckdns {$DUCKDNS_TOKEN}
+    }
     reverse_proxy immich_server:2283
 }
 
 # PriceBuddy
 pricebuddy.gsofianos.duckdns.org {
+    tls {
+        dns duckdns {$DUCKDNS_TOKEN}
+    }
     reverse_proxy pricebuddy:80
 }
 
-# Pricecheck (barcode -> cheapest store price lookup, uses PriceBuddy above)
+# Pricecheck
 pricecheck.gsofianos.duckdns.org {
+    tls {
+        dns duckdns {$DUCKDNS_TOKEN}
+    }
     reverse_proxy pricecheck:8000
 }
 
-# AI
+# AI (Open WebUI on AI server)
 ai.gsofianos.duckdns.org {
+    tls {
+        dns duckdns {$DUCKDNS_TOKEN}
+    }
     reverse_proxy 100.71.98.85:8080
 }
 
-# Receipt Tracker API (server2-ai) - confirm Tailscale IP matches, update PORT_RECEIPT_API to match .env
+# Receipt Tracker
 receipts.gsofianos.duckdns.org {
+    tls {
+        dns duckdns {$DUCKDNS_TOKEN}
+    }
     reverse_proxy 100.71.98.85:8001
 }
 
-# Grafana (server2-ai) - update port to match PORT_GRAFANA in .env
+# Grafana
 grafana.gsofianos.duckdns.org {
+    tls {
+        dns duckdns {$DUCKDNS_TOKEN}
+    }
     reverse_proxy 100.71.98.85:3001
 }
 
 # Navidrome
 navidrome.gsofianos.duckdns.org {
+    tls {
+        dns duckdns {$DUCKDNS_TOKEN}
+    }
     reverse_proxy navidrome:4533
 }
 
+# Clue Detective
 clue.gsofianos.duckdns.org {
-    reverse_proxy clue-detective:80
+    tls {
+        dns duckdns {$DUCKDNS_TOKEN}
+    }
+    reverse_proxy clue-detective:8095
 }
