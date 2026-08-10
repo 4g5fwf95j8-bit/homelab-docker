@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
  
     ports:
-      - ${PORT_PRICECHECK}:8000
+      - 127.0.0.1:${PORT_PRICECHECK}:8000
  
     environment:
       # Same box as pricebuddy (homelab-media), so this is a direct
@@ -17,4 +17,4 @@ services:
       # pattern as receipt-tracker -> ollama on homelab-ai-network.
       PRICEBUDDY_BASE_URL: http://pricebuddy
       PRICEBUDDY_API_TOKEN: ${PRICEBUDDY_API_TOKEN}
- 
+      

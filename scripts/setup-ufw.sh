@@ -6,6 +6,9 @@
 # with the "homelab-managed" comment are ever touched — anything you
 # add by hand (or SSH) is left alone.
 #
+# Ports bound only to 127.0.0.1 are intentionally skipped — they are
+# not reachable from the network, so they do not need UFW rules.
+#
 # Usage:
 #   bash setup-ufw.sh            # apply changes
 #   bash setup-ufw.sh --dry-run  # show what would change, do nothing
@@ -47,10 +50,15 @@ else
     ufw allow 41641/udp comment "${UFW_TAG}-baseline" > /dev/null 2>&1 || true
 fi
 
-# --- Desired ports, derived straight from the compose file's published ports ---
+# --- Desired ports: only those NOT bound exclusively to 127.0.0.1 ---
+# docker compose config JSON has host_ip when a specific bind address is set.
+# Skip anything whose host_ip is 127.0.0.1 / ::1.
 DESIRED_PORTS=$(cd "${COMPOSE_DIR}" && docker compose config --format json | \
-    jq -r '.services[].ports[]? | (.published|tostring) + "/" + (.protocol // "tcp")' | \
-    sort -u)
+    jq -r '
+      .services[].ports[]? |
+      select((.host_ip // "") != "127.0.0.1" and (.host_ip // "") != "::1") |
+      (.published|tostring) + "/" + (.protocol // "tcp")
+    ' | sort -u)
 
 # --- Ports this script currently manages, read back from ufw itself ---
 CURRENT_MANAGED=$(ufw show added | \

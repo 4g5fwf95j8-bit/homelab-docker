@@ -4,7 +4,7 @@ services:
     container_name: whisper-stt
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - 127.0.0.1:8000:8000
     environment:
       - WHISPER__COMPUTE_TYPE=int8   # cuts RAM use ~40% on CPU
       - WHISPER__INFERENCE_DEVICE=cpu
@@ -15,3 +15,4 @@ services:
 
 volumes:
   whisper-cache:
+  

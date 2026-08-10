@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
 
     ports:
-      - ${PORT_NAVIDROME}:4533
+      - 127.0.0.1:${PORT_NAVIDROME}:4533
 
     environment:
       TZ: ${TZ}
@@ -21,3 +21,4 @@ services:
     volumes:
       - ${NAVIDROME_DATA_DIR}:/data
       - ${MEDIADIR}/music:/music:ro
+      

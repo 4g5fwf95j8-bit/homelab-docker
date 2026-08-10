@@ -10,7 +10,7 @@ services:
         condition: service_started
 
     ports:
-      - ${PORT_PRICEBUDDY}:80
+      - 127.0.0.1:${PORT_PRICEBUDDY}:80
 
     environment:
       PUID: ${PUID}
@@ -65,3 +65,4 @@ services:
 
 volumes:
   pricebuddy_storage:
+  

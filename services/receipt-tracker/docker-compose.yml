@@ -13,7 +13,7 @@ services:
         condition: service_healthy
 
     ports:
-      - ${PORT_RECEIPT_API}:8000
+      - 127.0.0.1:${PORT_RECEIPT_API}:8000
 
     environment:
       DB_HOST: receipt-db
@@ -50,3 +50,4 @@ services:
 volumes:
   receipt_uploads:
   receipt_db:
+  

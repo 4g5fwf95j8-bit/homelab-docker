@@ -6,7 +6,7 @@ services:
     container_name: open-webui
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - 127.0.0.1:8080:8080
     volumes:
       - open-webui-data:/app/backend/data
     environment:
@@ -28,3 +28,4 @@ services:
 
 volumes:
   open-webui-data:
+  
