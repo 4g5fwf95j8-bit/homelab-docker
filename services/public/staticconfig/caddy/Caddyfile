@@ -51,4 +51,3 @@ navidrome.gsofianos.duckdns.org {
 clue.gsofianos.duckdns.org {
     reverse_proxy clue-detective:80
 }
-}
