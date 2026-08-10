@@ -13,7 +13,7 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
       LOG_LEVEL: 'debug'
-      HOMEPAGE_ALLOWED_HOSTS: localhost,127.0.0.1,${SERVER_URL},${HOST_NAME}.${HOST_DOMAIN},${HOST_DOMAIN}
+      HOMEPAGE_ALLOWED_HOSTS: "*"
 
     volumes:
       - ${HOMEPAGE_CONFIG_DIR}/homepage:/app/config
@@ -35,4 +35,3 @@ services:
           cpus: '1'
           memory: 256M
     restart: unless-stopped
-    
