@@ -82,3 +82,17 @@ clue.gsofianos.duckdns.org {
     }
     reverse_proxy clue-detective:80
 }
+
+:443 {
+    tls internal
+    header Content-Type text/html
+    respond `<!DOCTYPE html>
+<html>
+<head><title>Caddy</title></head>
+<body style="font-family: system-ui; text-align: center; padding: 4rem;">
+  <h1>Caddy Reverse Proxy</h1>
+  <p>Please use the proper hostname, for example:</p>
+  <p><code>https://homepage.gsofianos.duckdns.org</code></p>
+</body>
+</html>` 404
+}
