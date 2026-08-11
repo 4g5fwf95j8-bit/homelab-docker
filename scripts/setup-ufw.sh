@@ -1,7 +1,8 @@
 #!/bin/bash
 # =============================================
 # UFW Firewall Sync Script
-# Opens ports required by the docker-compose stack and removes any
+# Opens ports required by the docker-compose stack — scoped to the
+# Tailscale range and the local LAN only — and removes any
 # previously-managed rule that's no longer needed. Only rules tagged
 # with the "homelab-managed" comment are ever touched — anything you
 # add by hand (or SSH) is left alone.
@@ -9,11 +10,19 @@
 # Ports bound only to 127.0.0.1 are intentionally skipped — they are
 # not reachable from the network, so they do not need UFW rules.
 #
+# Every other published port is allowed ONLY from the two ranges below.
+# Nothing is ever opened to the public internet by this script.
+#
 # Usage:
 #   bash setup-ufw.sh            # apply changes
 #   bash setup-ufw.sh --dry-run  # show what would change, do nothing
 # =============================================
 set -e
+
+# --- Allowed source ranges — only these can reach any published port ---
+TAILSCALE_CIDR="100.64.0.0/10"
+LAN_CIDR="192.168.68.0/24"
+ALLOWED_CIDRS=("${TAILSCALE_CIDR}" "${LAN_CIDR}")
 
 DRY_RUN=false
 if [[ "$1" == "--dry-run" ]]; then
@@ -60,35 +69,49 @@ DESIRED_PORTS=$(cd "${COMPOSE_DIR}" && docker compose config --format json | \
       (.published|tostring) + "/" + (.protocol // "tcp")
     ' | sort -u)
 
-# --- Ports this script currently manages, read back from ufw itself ---
+# --- Desired rules: one per (port, allowed source) combination ---
+DESIRED_RULES=()
+for port in ${DESIRED_PORTS}; do
+    for cidr in "${ALLOWED_CIDRS[@]}"; do
+        DESIRED_RULES+=("${cidr}|${port}")
+    done
+done
+
+# --- Rules this script currently manages, read back from ufw itself ---
+# ufw renders each as: ufw allow from <cidr> to any port <port> proto <proto> comment '...'
 CURRENT_MANAGED=$(ufw show added | \
     grep "comment '${UFW_TAG}'" | \
-    sed -E "s/.*allow ([0-9]+(:[0-9]+)?\/(tcp|udp)).*/\1/" | \
+    sed -E "s/.*allow from ([0-9.\/]+) to any port ([0-9]+(:[0-9]+)?) proto (tcp|udp).*/\1|\2\/\4/" | \
     sort -u)
 
 # --- Add anything desired but not yet open ---
-for port in ${DESIRED_PORTS}; do
-    if ! grep -qx "${port}" <<< "${CURRENT_MANAGED}"; then
+for rule in "${DESIRED_RULES[@]}"; do
+    if ! grep -qxF "${rule}" <<< "${CURRENT_MANAGED}"; then
+        cidr="${rule%%|*}"
+        port="${rule##*|}"
         if [ "${DRY_RUN}" = true ]; then
-            echo "[dry-run] Would open ${port}"
+            echo "[dry-run] Would open ${port} from ${cidr}"
         else
-            echo "Opening ${port}"
-            ufw allow "${port}" comment "${UFW_TAG}"
+            echo "Opening ${port} from ${cidr}"
+            ufw allow from "${cidr}" to any port "${port%%/*}" proto "${port##*/}" comment "${UFW_TAG}"
         fi
     fi
 done
 
 # --- Remove anything managed but no longer needed ---
-for port in ${CURRENT_MANAGED}; do
-    if ! grep -qx "${port}" <<< "${DESIRED_PORTS}"; then
+while IFS= read -r rule; do
+    [ -z "${rule}" ] && continue
+    if ! printf '%s\n' "${DESIRED_RULES[@]}" | grep -qxF "${rule}"; then
+        cidr="${rule%%|*}"
+        port="${rule##*|}"
         if [ "${DRY_RUN}" = true ]; then
-            echo "[dry-run] Would close stale port ${port}"
+            echo "[dry-run] Would close stale rule: ${port} from ${cidr}"
         else
-            echo "Closing stale port ${port}"
-            ufw --force delete allow "${port}" comment "${UFW_TAG}"
+            echo "Closing stale rule: ${port} from ${cidr}"
+            ufw --force delete allow from "${cidr}" to any port "${port%%/*}" proto "${port##*/}" comment "${UFW_TAG}"
         fi
     fi
-done
+done <<< "${CURRENT_MANAGED}"
 
 if [ "${DRY_RUN}" = true ]; then
     echo "=== Dry run complete — current ufw state unchanged ==="
