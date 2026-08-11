@@ -92,11 +92,35 @@ for port in ${DESIRED_PORTS}; do
     done
 done
 
+# --- One-time migration: purge leftover unscoped rules from before this
+# script started scoping by source. These predate the "from <cidr>" format
+# below, so the parser further down won't recognize them — remove them
+# here explicitly instead of leaving them to silently keep a port open
+# to the whole internet alongside its new scoped rule.
+LEGACY_RULES=$(ufw show added | \
+    grep "comment '${UFW_TAG}'" | \
+    grep -v " from " | \
+    sed -nE "s/ufw allow ([0-9]+(:[0-9]+)?\/(tcp|udp)).*/\1/p" | \
+    sort -u)
+
+for port in ${LEGACY_RULES}; do
+    if [ "${DRY_RUN}" = true ]; then
+        echo "[dry-run] Would remove legacy unscoped rule: ${port}"
+    else
+        echo "Removing legacy unscoped rule: ${port}"
+        ufw --force delete allow "${port}" comment "${UFW_TAG}" || true
+    fi
+done
+
 # --- Rules this script currently manages, read back from ufw itself ---
 # ufw renders each as: ufw allow from <cidr> to any port <port> proto <proto> comment '...'
+# -n ... p (rather than a plain -E substitution) so any line that doesn't
+# match this exact shape is dropped, not passed through unchanged — a
+# malformed/unrecognized "homelab-managed" line should never silently
+# become a bogus rule|port pair below.
 CURRENT_MANAGED=$(ufw show added | \
     grep "comment '${UFW_TAG}'" | \
-    sed -E "s/.*allow from ([0-9.\/]+) to any port ([0-9]+(:[0-9]+)?) proto (tcp|udp).*/\1|\2\/\4/" | \
+    sed -nE "s/.*allow from ([0-9.\/]+) to any port ([0-9]+(:[0-9]+)?) proto (tcp|udp).*/\1|\2\/\4/p" | \
     sort -u)
 
 # --- Add anything desired but not yet open ---
