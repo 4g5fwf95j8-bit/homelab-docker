@@ -166,7 +166,7 @@ echo "Storage setup complete."
 # =============================================
 # Firewall (ufw)
 # =============================================
-bash "${SCRIPT_DIR}/setup-ufw.sh"
+bash "${SCRIPT_DIR}/setup-ufw.sh" homelab-media
 
 # =============================================
 # Start services

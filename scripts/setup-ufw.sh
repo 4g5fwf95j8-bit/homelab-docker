@@ -14,8 +14,9 @@
 # Nothing is ever opened to the public internet by this script.
 #
 # Usage:
-#   bash setup-ufw.sh            # apply changes
-#   bash setup-ufw.sh --dry-run  # show what would change, do nothing
+#   bash setup-ufw.sh [homelab-media|homelab-ai] [--dry-run]
+#   (compose project defaults to homelab-media if omitted, for
+#   backwards compatibility with the media-server setup script)
 # =============================================
 set -e
 
@@ -25,15 +26,29 @@ LAN_CIDR="192.168.68.0/24"
 ALLOWED_CIDRS=("${TAILSCALE_CIDR}" "${LAN_CIDR}")
 
 DRY_RUN=false
-if [[ "$1" == "--dry-run" ]]; then
-    DRY_RUN=true
-    echo "=== DRY RUN — no ufw rules will be changed ==="
-fi
+COMPOSE_PROJECT="homelab-media"
+for arg in "$@"; do
+    case "${arg}" in
+        --dry-run)
+            DRY_RUN=true
+            echo "=== DRY RUN — no ufw rules will be changed ==="
+            ;;
+        *)
+            COMPOSE_PROJECT="${arg}"
+            ;;
+    esac
+done
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
-COMPOSE_DIR="${ROOT_DIR}/homelab-media"
+COMPOSE_DIR="${ROOT_DIR}/${COMPOSE_PROJECT}"
 UFW_TAG="homelab-managed"
+
+if [ ! -d "${COMPOSE_DIR}" ]; then
+    echo "ERROR: compose project directory not found: ${COMPOSE_DIR}"
+    echo "Usage: bash setup-ufw.sh [homelab-media|homelab-ai] [--dry-run]"
+    exit 1
+fi
 
 if ! command -v ufw &> /dev/null; then
     echo "ufw not installed, skipping firewall sync."
@@ -49,7 +64,7 @@ if ! command -v jq &> /dev/null; then
     fi
 fi
 
-echo "=== Syncing UFW rules with docker-compose ports ==="
+echo "=== Syncing UFW rules with docker-compose ports (${COMPOSE_PROJECT}) ==="
 
 # --- Baseline rules this script will NEVER remove (lockout protection) ---
 if [ "${DRY_RUN}" = true ]; then
