@@ -8,7 +8,7 @@ import psycopg2
 import pytesseract
 import requests
 from fastapi import FastAPI, File, HTTPException, UploadFile
-from PIL import Image
+from PIL import Image, ImageOps
 from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
 
@@ -86,6 +86,10 @@ async def extract_receipt(file: UploadFile = File(...)):
     image_bytes = await file.read()
     try:
         image = Image.open(io.BytesIO(image_bytes))
+        # Respect the phone’s orientation tag
+        image = ImageOps.exif_transpose(image)
+        # Make sure Tesseract gets a format it likes
+        image = image.convert("RGB")
     except Exception:
         raise HTTPException(status_code=400, detail="Could not read image file")
 
